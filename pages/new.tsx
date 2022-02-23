@@ -85,7 +85,7 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
     <div className="flex min-h-screen py-7 container mx-auto max-w-xl">
       <main className="flex flex-col w-full gap-7 justify-around">
         <header>
-          <Link href="/">
+          <Link href="/" passHref>
             <GoBackLink />
           </Link>
         </header>
@@ -106,16 +106,16 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
                 r="166.816%"
                 id="a"
               >
-                <stop stop-color="#E84D70" offset="0%" />
-                <stop stop-color="#A337F6" offset="53.089%" />
-                <stop stop-color="#28A7ED" offset="100%" />
+                <stop stopColor="#E84D70" offset="0%" />
+                <stop stopColor="#A337F6" offset="53.089%" />
+                <stop stopColor="#28A7ED" offset="100%" />
               </radialGradient>
             </defs>
-            <g fill="none" fill-rule="evenodd">
+            <g fill="none" fillRule="evenodd">
               <circle fill="url(#a)" cx="28" cy="28" r="28" />
               <path
                 fill="#FFF"
-                fill-rule="nonzero"
+                fillRule="nonzero"
                 d="M30.343 36v-5.834h5.686v-4.302h-5.686V20h-4.597v5.864H20v4.302h5.746V36z"
               />
             </g>

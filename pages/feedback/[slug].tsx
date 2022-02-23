@@ -35,7 +35,7 @@ const FeedbackDetails: React.FC<FeedbackDetailsProps> = ({ feedback }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header>
-        <Link href="/">
+        <Link href="/" passHref>
           <GoBackLink />
         </Link>
       </header>

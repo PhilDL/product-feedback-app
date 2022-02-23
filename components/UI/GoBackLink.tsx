@@ -5,7 +5,7 @@ type Props = {
 };
 
 const GoBackLink: React.FC<Props> = React.forwardRef<Ref, Props>(
-  (props, ref) => {
+  function GoBackLink(props, ref) {
     const { onClick, href, ...rest } = props;
     return (
       <a

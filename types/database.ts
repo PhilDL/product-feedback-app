@@ -13,7 +13,7 @@ export interface UserProfile {
   username?: string;
   avatar_url?: string;
   website?: string;
-  name?: string;
+  full_name?: string;
 }
 
 export interface SupabaseUser {

@@ -1,12 +1,18 @@
-import type { User, Feedback, Comment, Upvotes, Category } from "./database";
+import type {
+  UserProfile,
+  Feedback,
+  Comment,
+  Upvotes,
+  Category,
+} from "./database";
 
 export interface CommentModel extends Comment {
-  user: User;
+  user: UserProfile;
   replies?: CommentModel[];
 }
 
 export interface FeedbackModel extends Feedback {
-  user: User;
+  user: UserProfile;
   category: Category;
   comments?: CommentModel[];
   upvotes?: Upvotes[];

@@ -20,7 +20,7 @@ const SignIn = () => {
     if (user) {
       router.push("/");
     }
-  }, [user]);
+  }, [user, router]);
 
   const submitHandler = async (
     values: { email: string; password?: string },
@@ -75,7 +75,7 @@ const SignIn = () => {
   return (
     <div className="flex flex-col min-h-screen py-7 container mx-auto max-w-xl justify-center gap-10">
       <header>
-        <Link href="/">
+        <Link href="/" passHref>
           <GoBackLink />
         </Link>
       </header>

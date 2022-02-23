@@ -84,7 +84,7 @@ const SignUp = () => {
   return (
     <div className="flex flex-col min-h-screen py-7 container mx-auto max-w-xl justify-center gap-10">
       <header>
-        <Link href="/">
+        <Link href="/" passHref>
           <GoBackLink />
         </Link>
       </header>

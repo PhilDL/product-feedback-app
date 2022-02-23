@@ -14,7 +14,7 @@ const COLOR_ROLES: { [key: string]: string } = {
 };
 
 const ButtonLink: React.FC<Props> = React.forwardRef<Ref, Props>(
-  (props, ref) => {
+  function ButtonLink(props, ref) {
     const { children, role, className, onClick, href, ...rest } = props;
     const color = COLOR_ROLES[role] || COLOR_ROLES.default;
     return (

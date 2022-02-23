@@ -16,7 +16,7 @@ const CommentsList: React.FC<Props> = ({ comments, totalComments }: Props) => {
       {comments && comments.length > 0 && (
         <div className="divide-y flex flex-col divide-gray-100">
           {comments.map((comment) => (
-            <Comment comment={comment} />
+            <Comment key={comment.id} comment={comment} />
           ))}
         </div>
       )}

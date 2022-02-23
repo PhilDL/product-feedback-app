@@ -1,5 +1,6 @@
 import React from "react";
 import type { CommentModel } from "../types/models";
+import Image from "next/image";
 
 type Props = {
   comment: CommentModel;
@@ -21,7 +22,13 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
           } justify-between items-start text-gray-500 font-normal`}
         >
           <div className="-ml-5">
-            <img src={user.avatar_url} className="rounded-full w-10 absolute" />
+            <Image
+              src={user?.avatar_url || ""}
+              alt={user.username}
+              width={40}
+              height={40}
+              className="rounded-full w-10 absolute"
+            />
           </div>
           <div className="flex flex-col w-full pl-10">
             <span>
@@ -43,7 +50,7 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
         {replies && replies.length > 0 && (
           <div className="bg-white flex flex-col justify-between items-start">
             {replies.map((reply) => (
-              <Comment comment={reply} />
+              <Comment key={reply.id} comment={reply} />
             ))}
           </div>
         )}

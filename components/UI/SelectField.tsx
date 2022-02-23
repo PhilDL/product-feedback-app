@@ -48,7 +48,7 @@ const SelectField: React.FC<SelectFieldProps> = (props) => {
       helpers.setValue(value);
       helpers.setTouched(true);
     }
-  }, [value]);
+  }, [value, field.value, helpers]);
   return (
     <div className={`flex flex-col gap-3 ${containerClassName}`}>
       <label htmlFor={inputName} className="text-gray-700 text-sm font-bold">
