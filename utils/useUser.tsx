@@ -72,12 +72,16 @@ export const UserContextProvider = (props: any) => {
     };
   }, []);
 
-  const getUserProfile = () =>
-    supabaseClient.from<UserProfile>("profiles").select("*").single();
+  const getUserProfile = (user: User) =>
+    supabaseClient
+      .from<UserProfile>("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
 
   useEffect(() => {
     if (user) {
-      Promise.allSettled([getUserProfile()]).then((results) => {
+      Promise.allSettled([getUserProfile(user)]).then((results) => {
         const userProfilePromise = results[0];
 
         if (userProfilePromise.status === "fulfilled")
@@ -95,7 +99,7 @@ export const UserContextProvider = (props: any) => {
     userLoaded,
     signIn: (options: SignInOptions) => supabaseClient.auth.signIn(options),
     signUp: (options: SignUpOptions, metaData: SignUpMetadata) =>
-      supabaseClient.auth.signUp(options, { data: metaData }),
+      supabaseClient.auth.signUp(options, metaData),
     signOut: () => {
       setUserProfile(null);
       return supabaseClient.auth.signOut();
