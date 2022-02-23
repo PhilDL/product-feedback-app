@@ -1,4 +1,5 @@
 const plugin = require("tailwindcss/plugin");
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: [
@@ -40,6 +41,12 @@ module.exports = {
           "url('/assets/suggestions/tablet/background-header.png')",
         "theme-gradient":
           "url('/assets/suggestions/mobile/background-header.png')",
+      },
+      height: {
+        "100-offset": "calc(100% - 3.5rem)",
+      },
+      fontFamily: {
+        sans: ["Jost", ...defaultTheme.fontFamily.sans],
       },
     },
   },

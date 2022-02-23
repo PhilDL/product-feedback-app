@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useField, FieldConfig } from "formik";
 import {
   ListboxInput,
   ListboxButton,
@@ -7,36 +8,60 @@ import {
   ListboxOption,
 } from "@reach/listbox";
 
-type Props = {
-  options: { [key: string]: string };
-  defaultValue: string;
-  inputName: string;
+export interface Option {
+  id: number | string;
+  name: string;
+}
+export interface SelectFieldProps extends FieldConfig<any> {
+  options: Option[];
+  defaultValue?: number | string;
+  inputName?: string;
   [x: string]: any;
   widthClassName?: string;
-  help: string;
+  containerClassName?: string;
+  help?: string;
   label: string;
-};
+  form?: string;
+}
 
-const SelectField: React.FC<Props> = ({
-  options,
-  defaultValue,
-  widthClassName,
-  inputName,
-  help,
-  label,
-}) => {
+const SelectField: React.FC<SelectFieldProps> = (props) => {
+  const [field, meta, helpers] = useField(props);
+  const {
+    options,
+    defaultValue,
+    widthClassName,
+    inputName,
+    help,
+    label,
+    form,
+    containerClassName,
+    ...rest
+  } = props;
   const [value, setValue] = useState(defaultValue);
+
+  const changeHandler = (value: string | number) => {
+    setValue(value);
+  };
+
+  useEffect(() => {
+    if (field.value !== value) {
+      helpers.setValue(value);
+      helpers.setTouched(true);
+    }
+  }, [value]);
   return (
-    <div className="flex flex-col gap-3">
+    <div className={`flex flex-col gap-3 ${containerClassName}`}>
       <label htmlFor={inputName} className="text-gray-700 text-sm font-bold">
         {label}
       </label>
       <small className="text-gray-500 text-sm font-normal">{help}</small>
       <ListboxInput
+        {...field}
         name={inputName}
         id={inputName}
-        value={value}
-        onChange={(value) => setValue(value)}
+        value={`${value}`}
+        onChange={changeHandler}
+        form={form}
       >
         {({ value, valueLabel, isExpanded }) => (
           <>
@@ -66,18 +91,20 @@ const SelectField: React.FC<Props> = ({
 
             <ListboxPopover className="rounded shadow-xl mt-4">
               <ListboxList className="bg-white w-full text-gray-500 outline-transparent flex flex-col divide-y divide-gray-100-lighter">
-                {Object.keys(options).map((option) => (
+                {options.map((option) => (
                   <ListboxOption
-                    key={option}
-                    value={option}
-                    label={options[option]}
+                    key={option.id}
+                    value={`${option.id}`}
+                    label={option.name}
                     className="w-full px-5 py-3 flex justify-between 
                             items-center border-b-light-800 
                             hover:text-fushia aria-selected:text-fushia 
                             cursor-pointer"
                   >
-                    <span>{options[option]}</span>{" "}
-                    {value === option && <span className="text-fushia">✓</span>}
+                    <span>{option.name}</span>{" "}
+                    {value === option.id && (
+                      <span className="text-fushia">✓</span>
+                    )}
                   </ListboxOption>
                 ))}
               </ListboxList>

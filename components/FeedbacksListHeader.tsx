@@ -1,5 +1,6 @@
 import React from "react";
-import Button from "./UI/Button";
+import ButtonLink from "./UI/ButtonLink";
+import Link from "next/link";
 import SortDropdown from "./UI/SortDropdown";
 type Props = {
   feedbackCount: number;
@@ -37,9 +38,11 @@ const FeedbacksListHeader: React.FC<Props> = ({ feedbackCount }: Props) => {
         }}
         inputName="sort"
       />
-      <Button role="primary" className="ml-auto">
-        + Add Feedback
-      </Button>
+      <Link href="/new" passHref>
+        <ButtonLink role="primary" className="ml-auto">
+          + Add Feedback
+        </ButtonLink>
+      </Link>
     </div>
   );
 };

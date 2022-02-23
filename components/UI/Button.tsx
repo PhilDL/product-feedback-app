@@ -7,10 +7,11 @@ type Props = {
 };
 
 const COLOR_ROLES: { [key: string]: string } = {
-  primary: "bg-fushia hover:bg-fushia-light",
-  secondary: "bg-blue hover:bg-blue-light",
-  default: "bg-gray-700 hover:bg-gray-700-lighter",
-  danger: "bg-red hover:bg-red-lighter",
+  primary: "bg-fushia hover:bg-fushia-light disabled:bg-fushia-light/75",
+  secondary: "bg-blue hover:bg-blue-light disabled:bg-blue-light/75",
+  default:
+    "bg-gray-700 hover:bg-gray-700-lighter disabled:bg-gray-700-lighter/75",
+  danger: "bg-red hover:bg-red-lighter disabled:bg-red-lighter/75",
 };
 
 const Button: React.FC<Props> = (props) => {

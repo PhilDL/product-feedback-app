@@ -1,41 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import Tag from "./UI/Tag";
 import Card from "./UI/Card";
 import Upvote from "./UI/Upvote";
-type Tag = {
-  name: string;
-  slug: string;
-};
+import type { FeedbackModel } from "../types/models";
 
-type Feedback = {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  upvotes: number;
-  comments: number;
-  tag: Tag;
-};
 type Props = {
-  feedback: Feedback;
+  feedback: FeedbackModel;
   userUpvote?: boolean;
+  commentsCount?: number;
 };
 
-const Feedback: React.FC<Props> = ({ feedback, userUpvote = false }: Props) => {
+const Feedback: React.FC<Props> = ({
+  feedback,
+  userUpvote = false,
+  commentsCount = 0,
+}: Props) => {
+  const [upvotesCount, setUpvotesCount] = useState(
+    feedback.upvotes?.length || 0
+  );
+  const [upvoted, setUpvoted] = useState(userUpvote);
+
+  const handleClickUpvote = () => {
+    setUpvoted(!upvoted);
+    setUpvotesCount(upvoted ? upvotesCount - 1 : upvotesCount + 1);
+  };
   return (
     <Card className="flex-row gap-10 justify-between items-start">
       <div className="flex-1">
-        <Upvote active={userUpvote} count={feedback.upvotes} />
+        <Upvote
+          active={upvoted}
+          count={upvotesCount}
+          onClick={handleClickUpvote}
+        />
       </div>
       <div className="flex flex-col w-full">
-        <a href={feedback.slug}>
+        <a href={`/feedback/${feedback.slug}`}>
           <h3 className="text-gray-700 text-lg font-bold mb-1 hover:text-blue">
             {feedback.title}
           </h3>
           <p className="text-gray-500 font-normal">{feedback.description}</p>
         </a>
         <div className="mt-4">
-          <Tag href={feedback.tag.slug}>{feedback.tag.name}</Tag>
+          <Tag href={feedback.category.slug}>{feedback.category.name}</Tag>
         </div>
       </div>
       <a
@@ -51,10 +57,10 @@ const Feedback: React.FC<Props> = ({ feedback, userUpvote = false }: Props) => {
         </svg>
         <span
           className={`${
-            feedback.comments > 0 ? "text-gray-700" : "text-gray-700/50"
+            commentsCount > 0 ? "text-gray-700" : "text-gray-700/50"
           } font-bold`}
         >
-          {feedback.comments}
+          {commentsCount || 0}
         </span>
       </a>
     </Card>

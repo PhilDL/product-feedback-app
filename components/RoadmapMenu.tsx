@@ -1,13 +1,9 @@
 import React from "react";
-import Tag from "./UI/Tag";
 import Card from "./UI/Card";
-type FeedbackStatus = {
-  name: string;
-  count: number;
-  color: string;
-};
+import type { FeedbackStatusAggregate } from "../types/models";
+
 type Props = {
-  feedbackStatuses: FeedbackStatus[];
+  feedbackStatuses: FeedbackStatusAggregate[];
 };
 
 const RoadmapMenu: React.FC<Props> = ({ feedbackStatuses }: Props) => {
@@ -20,7 +16,10 @@ const RoadmapMenu: React.FC<Props> = ({ feedbackStatuses }: Props) => {
         </a>
       </div>
       {feedbackStatuses.map((feedbackStatus) => (
-        <div className="flex w-full text-gray-500 flex-row justify-between items-center">
+        <div
+          key={feedbackStatus.name}
+          className="flex w-full text-gray-500 flex-row justify-between items-center"
+        >
           <span className="font-normal">
             <span
               style={{ borderColor: feedbackStatus.color }}

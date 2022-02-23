@@ -1,12 +1,10 @@
 import React from "react";
 import Tag from "./UI/Tag";
 import Card from "./UI/Card";
-type Tag = {
-  name: string;
-  slug: string;
-};
+import type { Category } from "../types/database";
+
 type Props = {
-  tags: Tag[];
+  tags: Category[];
   selectedTag?: string;
 };
 

@@ -14,7 +14,7 @@ const feedback = {
   title: "Add tags for solutions",
   description: "Easier to search for solutions based on specific task.",
   slug: "add-tags-for-solution-01",
-  tag: { name: "Enhancement", slug: "enhancement" },
+  category: { name: "Enhancement", slug: "enhancement" },
   createdAt: "2020-01-01T00:00:00.000Z",
   updatedAt: "2020-01-01T00:00:00.000Z",
   comments: 32,

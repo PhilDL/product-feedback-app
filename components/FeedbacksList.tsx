@@ -1,24 +1,11 @@
 import React from "react";
 import Feedback from "./Feedback";
 import NoFeedback from "./NoFeedback";
-type TagModel = {
-  name: string;
-  slug: string;
-};
-
-type FeedbackModel = {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  upvotes: number;
-  comments: number;
-  tag: TagModel;
-};
+import type { FeedbackModel } from "../types/models";
 
 type Props = {
   feedbacks: FeedbackModel[];
-  userUpvotedFeedbacksIds: string[];
+  userUpvotedFeedbacksIds?: number[];
 };
 
 const FeedbacksList: React.FC<Props> = ({
@@ -34,7 +21,11 @@ const FeedbacksList: React.FC<Props> = ({
         <Feedback
           key={feedback.id}
           feedback={feedback}
-          userUpvote={userUpvotedFeedbacksIds.includes(feedback.id)}
+          commentsCount={feedback.comments?.length || 0}
+          userUpvote={
+            userUpvotedFeedbacksIds &&
+            userUpvotedFeedbacksIds.includes(feedback.id)
+          }
         />
       ))}
     </div>
