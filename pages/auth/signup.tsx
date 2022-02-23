@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import GoBackLink from "../../components/UI/GoBackLink";
-import { supabaseClient } from "../../lib/client";
 import Card from "../../components/UI/Card";
 import Button from "../../components/UI/Button";
 import TextField from "../../components/UI/TextField";
 import { FormikProvider, Form, useFormik } from "formik";
 import { slugify } from "../../lib/utils";
+import { useUser } from "../../utils/useUser";
 import * as Yup from "yup";
 
 const SignUp = () => {
+  const { signUp } = useUser();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,7 +32,7 @@ const SignUp = () => {
       )}.svg`;
     }
     try {
-      const { error } = await supabaseClient.auth.signUp(
+      const { error } = await signUp(
         {
           email: values.email,
           password: values.password,

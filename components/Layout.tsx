@@ -1,14 +1,13 @@
 import React from "react";
-import type { User } from "@supabase/supabase-js";
-import { supabaseClient } from "../lib/client";
 import Link from "next/link";
+import { useUser } from "../utils/useUser";
 
 export interface Props {
   children: React.ReactNode;
-  user?: User | null;
 }
-const Layout: React.FC<Props> = ({ children, user }) => {
-  const handleSignOut = () => supabaseClient.auth.signOut();
+const Layout: React.FC<Props> = ({ children }) => {
+  const handleSignOut = () => signOut();
+  const { user, userProfile, userLoaded, signOut } = useUser();
 
   return (
     <>
@@ -17,7 +16,10 @@ const Layout: React.FC<Props> = ({ children, user }) => {
         {user ? (
           <>
             Currently logged-in as{" "}
-            <span className="text-gray-500 ml-1">{user.email}</span>. Click{" "}
+            <span className="text-gray-500 ml-1">
+              {userLoaded && userProfile.username}
+            </span>
+            . Click{" "}
             <a
               className="cursor-pointer text-fushia hover:text-fushia-light ml-1"
               onClick={handleSignOut}

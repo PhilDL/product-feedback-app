@@ -3,6 +3,25 @@ import { supabaseClient } from "../lib/client";
 import { Session, User, Provider } from "@supabase/supabase-js";
 import { UserProfile } from "../types/database";
 
+type SignInOptions = {
+  email?: string;
+  password?: string;
+  provider?: Provider;
+};
+
+type SignUpOptions = {
+  email: string;
+  password: string;
+};
+
+type SignUpMetadata = {
+  data?: {
+    username?: string;
+    avatar_url?: string;
+    full_name?: string;
+  };
+};
+
 type UserContextType = {
   session: Session;
   user: User;
@@ -16,7 +35,10 @@ type UserContextType = {
     error: Error | null;
     data: Session | null;
   }>;
-  signUp: (options: SignUpOptions) => Promise<{
+  signUp: (
+    options: SignUpOptions,
+    metaData?: SignUpMetadata
+  ) => Promise<{
     user: User | null;
     session: Session | null;
     error: Error | null;
@@ -89,21 +111,4 @@ export const useUser = () => {
     throw new Error(`useUser must be used within a UserContextProvider.`);
   }
   return context;
-};
-
-type SignInOptions = {
-  email?: string;
-  password?: string;
-  provider?: Provider;
-};
-
-type SignUpOptions = {
-  email: string;
-  password: string;
-};
-
-type SignUpMetadata = {
-  username?: string;
-  avatar_url?: string;
-  full_name?: string;
 };

@@ -13,6 +13,7 @@ import TextField from "../components/UI/TextField";
 import TextAreaField from "../components/UI/TextAreaField";
 import SelectField from "../components/UI/SelectField";
 import { FormikProvider, Form, useFormik } from "formik";
+import { useUser } from "../utils/useUser";
 import * as Yup from "yup";
 
 export interface Category {
@@ -26,7 +27,7 @@ export interface NewFeedbackProps {
 
 const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
   const [error, setError] = useState<string | null>(null);
-  const user = supabaseClient.auth.user();
+  const { user } = useUser();
   const router = useRouter();
 
   const loginButtonHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -42,6 +43,7 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     if (!user) {
+      setError("You must be logged in to create a feedback.");
       return null;
     }
     const { data, error } = await supabaseClient.from("feedbacks").insert([

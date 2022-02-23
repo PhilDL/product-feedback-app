@@ -25,7 +25,6 @@ const Suggestions: React.FC<SuggestionsProps> = ({
   feedbacks,
   feedbackStatuses,
 }) => {
-  const user = supabaseClient.auth.user();
   return (
     <div className="flex min-h-screen py-2 container mx-auto gap-7">
       <Head>
@@ -53,15 +52,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     { name: "In-Progress", key: "in-progress", count: 0, color: "#AD1FEA" },
     { name: "Live", key: "live", count: 0, color: "#62BCFA" },
   ];
-
-  // Promise.allSettled([getUserProfile()]).then((results) => {
-  //   const userProfilePromise = results[0];
-
-  //   if (userProfilePromise.status === "fulfilled")
-  //     setUserProfile(userProfilePromise.value.data);
-
-  //   setUserLoaded(true);
-  // });
 
   const { data: feedbacks, error: feedbacksError } = await supabaseClient
     .from("feedbacks")

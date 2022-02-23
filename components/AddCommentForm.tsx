@@ -3,6 +3,7 @@ import Button from "./UI/Button";
 import Card from "./UI/Card";
 import TextAreaField from "./UI/TextAreaField";
 import { supabaseClient } from "../lib/client";
+import { useUser } from "../utils/useUser";
 import { FormikProvider, Form, useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -18,7 +19,7 @@ const AddCommentForm: React.FC<AddCommentFormProps> = ({
   onAddComment,
 }: AddCommentFormProps) => {
   const [error, setError] = useState<string | null>(null);
-  const user = supabaseClient.auth.user();
+  const { user } = useUser();
 
   const submitHandler = async (
     values: { content: string },

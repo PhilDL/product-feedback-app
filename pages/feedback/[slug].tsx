@@ -7,18 +7,13 @@ import CommentsList from "../../components/CommentsList";
 import AddCommentForm from "../../components/AddCommentForm";
 import { supabaseClient } from "../../lib/client";
 import type { GetStaticProps } from "next";
-import type {
-  FeedbackModel,
-  CategoryModel,
-  FeedbackStatusAggregate,
-} from "../../types/models";
+import type { FeedbackModel } from "../../types/models";
 
 export interface FeedbackDetailsProps {
   feedback: FeedbackModel;
 }
 
 const FeedbackDetails: React.FC<FeedbackDetailsProps> = ({ feedback }) => {
-  const user = supabaseClient.auth.user();
   const [comments, setComments] = React.useState<FeedbackModel["comments"]>(
     feedback?.comments || []
   );

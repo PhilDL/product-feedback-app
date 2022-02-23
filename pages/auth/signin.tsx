@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import GoBackLink from "../../components/UI/GoBackLink";
-import { supabaseClient } from "../../lib/client";
 import Card from "../../components/UI/Card";
 import Button from "../../components/UI/Button";
 import TextField from "../../components/UI/TextField";
 import { FormikProvider, Form, useFormik } from "formik";
+import { useUser } from "../../utils/useUser";
 import * as Yup from "yup";
 
 const SignIn = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [magicLinkAuth, setMagicLinkAuth] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { signIn, user } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user]);
 
   const submitHandler = async (
     values: { email: string; password?: string },
@@ -25,7 +34,7 @@ const SignIn = () => {
       return setError("Email is required");
     }
     try {
-      const { error } = await supabaseClient.auth.signIn({
+      const { error } = await signIn({
         email,
         password,
       });
@@ -114,8 +123,12 @@ const SignIn = () => {
                 Prefer to use password ?
               </a>
               {isSubmitted ? (
-                <h4>
-                  Please check {formikMagicLink.values.email} for login link
+                <h4 className="mt-3 text-gray-700">
+                  Please check{" "}
+                  <span className="text-blue-light">
+                    {formikMagicLink.values.email}
+                  </span>{" "}
+                  for login link
                 </h4>
               ) : (
                 <FormikProvider value={formikMagicLink}>
