@@ -21,13 +21,14 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
             replyingTo ? "my-3" : "my-8"
           } justify-between items-start text-gray-500 font-normal`}
         >
-          <div className="-ml-5">
+          <div className="-ml-5 absolute">
             <Image
               src={user?.avatar_url || ""}
               alt={user.username}
               width={40}
               height={40}
               className="rounded-full w-10 absolute"
+              layout="fixed"
             />
           </div>
           <div className="flex flex-col w-full pl-10">
