@@ -107,6 +107,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       categories: categories,
       feedbackStatuses: feedbackStatuses,
     },
-    revalidate: 60, // seconds
+    revalidate: 10, // seconds
   };
 };
