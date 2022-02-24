@@ -1,12 +1,14 @@
 import Head from "next/head";
-import React from "react";
+import React, { useMemo } from "react";
 import ApplicationLogo from "../components/UI/ApplicationLogo";
 import FeedbacksListHeader from "../components/FeedbacksListHeader";
-import FeedbacksList from "../components/FeedbacksList";
+import FeedbackSWRComponent from "../components/FeedbackSWRComponent";
+import NoFeedback from "../components/NoFeedback";
 import RoadmapMenu from "../components/RoadmapMenu";
 import TagsCloud from "../components/TagsCloud";
-import Button from "../components/UI/Button";
+import { getAllFeedbacks } from "../lib/client";
 import { supabaseClient } from "../lib/client";
+import useSWR, { SWRConfig } from "swr";
 import type { GetStaticProps } from "next";
 import type {
   FeedbackModel,
@@ -14,39 +16,132 @@ import type {
   FeedbackStatusAggregate,
 } from "../types/models";
 
+export interface SuggestionsContentProps {
+  categories: CategoryModel[];
+}
+
+const fetcher = async (input: RequestInfo) => {
+  const res: Response = await fetch(input);
+  return await res.json();
+};
+
+const SuggestionsContent: React.FC<SuggestionsContentProps> = ({
+  categories,
+}) => {
+  const { data: feedbacks } = useSWR<FeedbackModel[]>(
+    `/api/feedbacks`,
+    fetcher,
+    { revalidateOnMount: false, revalidateOnFocus: false }
+  );
+  const [feedbacksSort, setFeedbacksSort] =
+    React.useState<string>("most-upvotes");
+  const [selectedCategoryId, setSelectedCategoryId] =
+    React.useState<number | null>(null);
+
+  const sortedFeedbacks = useMemo(() => {
+    let sortedFeedbacks: FeedbackModel[] = feedbacks || [];
+    if (selectedCategoryId !== null) {
+      sortedFeedbacks = sortedFeedbacks.filter(
+        (feedback) => feedback.category.id === selectedCategoryId
+      );
+    }
+    if (feedbacksSort === "most-upvotes") {
+      return sortedFeedbacks?.sort(
+        (a, b) => b.upvotes.length - a.upvotes.length
+      );
+    } else if (feedbacksSort === "most-comments") {
+      return sortedFeedbacks?.sort(
+        (a, b) => b.comments.length - a.comments.length
+      );
+    } else if (feedbacksSort === "least-upvotes") {
+      return sortedFeedbacks?.sort(
+        (a, b) => a.upvotes.length - b.upvotes.length
+      );
+    } else if (feedbacksSort === "least-comments") {
+      return sortedFeedbacks?.sort(
+        (a, b) => a.comments.length - b.comments.length
+      );
+    }
+  }, [feedbacks, feedbacksSort, selectedCategoryId]);
+
+  const feedbackStatuses = [
+    { name: "Planned", key: "planned", count: 0, color: "#F49F85" },
+    { name: "In-Progress", key: "in-progress", count: 0, color: "#AD1FEA" },
+    { name: "Live", key: "live", count: 0, color: "#62BCFA" },
+  ];
+  if (feedbacks) {
+    for (const feedback of feedbacks) {
+      const { status } = feedback;
+      const statusIndex = feedbackStatuses.findIndex(
+        (statusItem) => statusItem.key === status
+      );
+      if (statusIndex !== -1) {
+        feedbackStatuses[statusIndex].count++;
+      }
+    }
+  }
+  const changeSortHandler = (sort: string) => {
+    console.log(sort);
+    setFeedbacksSort(sort);
+  };
+
+  return (
+    <>
+      <nav className="flex flex-col gap-6 max-w-xs">
+        <ApplicationLogo />
+        <TagsCloud
+          tags={categories}
+          onChangeCategory={setSelectedCategoryId}
+          selectedCategoryId={selectedCategoryId}
+        />
+        <RoadmapMenu feedbackStatuses={feedbackStatuses} />
+      </nav>
+      <main className="flex flex-col w-full gap-7">
+        <FeedbacksListHeader
+          feedbackCount={feedbacks?.length || 0}
+          onChangeSort={changeSortHandler}
+        />
+        {(sortedFeedbacks?.length || 0) > 0 ? (
+          <div className="flex flex-col gap-4">
+            {sortedFeedbacks &&
+              sortedFeedbacks.map((feedback) => (
+                <FeedbackSWRComponent
+                  key={feedback.slug}
+                  slug={feedback.slug}
+                />
+              ))}
+          </div>
+        ) : (
+          <NoFeedback />
+        )}
+      </main>
+    </>
+  );
+};
+
 export interface SuggestionsProps {
   categories: CategoryModel[];
   feedbacks: FeedbackModel[];
   feedbackStatuses: FeedbackStatusAggregate[];
+  fallback: any;
 }
 
 const Suggestions: React.FC<SuggestionsProps> = ({
   categories,
   feedbacks,
   feedbackStatuses,
+  fallback,
 }) => {
-  const changeSortHandler = (sort: string) => {
-    console.log(sort);
-  };
   return (
-    <div className="flex min-h-screen py-2 container mx-auto gap-7">
-      <Head>
-        <title>Feedback App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <nav className="flex flex-col gap-6 max-w-xs">
-        <ApplicationLogo />
-        <TagsCloud tags={categories} />
-        <RoadmapMenu feedbackStatuses={feedbackStatuses} />
-      </nav>
-      <main className="flex flex-col w-full gap-7">
-        <FeedbacksListHeader
-          feedbackCount={feedbacks.length}
-          onChangeSort={changeSortHandler}
-        />
-        <FeedbacksList feedbacks={feedbacks} />
-      </main>
-    </div>
+    <SWRConfig value={{ fallback }}>
+      <div className="flex min-h-screen py-2 container mx-auto gap-7">
+        <Head>
+          <title>Feedback App</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <SuggestionsContent categories={categories} />
+      </div>
+    </SWRConfig>
   );
 };
 
@@ -59,23 +154,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
     { name: "Live", key: "live", count: 0, color: "#62BCFA" },
   ];
 
-  const { data: feedbacks, error: feedbacksError } = await supabaseClient
-    .from("feedbacks")
-    .select(
-      `
-    *, 
-    category:categories (id, name, slug),
-    comments!comments_feedback_id_fkey (id, content),
-    user:profiles!feedbacks_user_id_fkey (id, username, avatar_url, full_name),
-    upvotes (user_id),
-    upvotesCount:upvotes(count),
-    commentsCount:comments!comments_feedback_id_fkey(count)
-    `
-    )
-    .order("id");
+  const { data: feedbacks, error: feedbacksError } = await getAllFeedbacks();
+  const fallback: { [key: string]: any } = { "/api/feedbacks": feedbacks };
   if (feedbacks) {
+    feedbacks?.sort((a, b) => b.upvotes.length - a.upvotes.length);
     for (const feedback of feedbacks) {
-      console.log(feedback);
+      let key = `/api/feedback/${feedback.slug}`;
+      fallback[key] = feedback;
       const { status } = feedback;
       const statusIndex = feedbackStatuses.findIndex(
         (statusItem) => statusItem.key === status
@@ -91,28 +176,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
     .select("*")
     .order("id");
 
-  // Promise.allSettled([getUserDetails(), getSubscription()]).then(
-  //   (results) => {
-  //     const userDetailsPromise = results[0];
-  //     const subscriptionPromise = results[1];
-
-  //     console.log("subscription", subscriptionPromise);
-  //     if (userDetailsPromise.status === "fulfilled")
-  //       setUserDetails(userDetailsPromise.value.data);
-
-  //     if (subscriptionPromise.status === "fulfilled")
-  //       setSubscription(subscriptionPromise.value.data);
-
-  //     setUserLoaded(true);
-  //   }
-  // );
-
   return {
     props: {
       feedbacks: feedbacks,
       categories: categories,
       feedbackStatuses: feedbackStatuses,
+      fallback: fallback,
     },
-    revalidate: 10, // seconds
+    revalidate: 60, // seconds
   };
 };

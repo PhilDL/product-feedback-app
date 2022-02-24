@@ -5,17 +5,22 @@ import type { Category } from "../types/database";
 
 type Props = {
   tags: Category[];
-  selectedTag?: string;
+  selectedCategoryId?: number | null;
+  onChangeCategory: (id: number | null) => void;
 };
 
-const TagsCloud: React.FC<Props> = ({ tags, selectedTag }: Props) => {
+const TagsCloud: React.FC<Props> = ({
+  tags,
+  selectedCategoryId = null,
+  onChangeCategory,
+}: Props) => {
   return (
     <Card className="flex-wrap gap-x-2 gap-y-3">
       <Tag
-        href="#"
+        onClick={() => onChangeCategory(null)}
         selected={
-          selectedTag === null ||
-          tags.filter((t) => t.slug === selectedTag).length === 0
+          selectedCategoryId === null ||
+          tags.filter((t) => t.id === selectedCategoryId).length === 0
             ? true
             : false
         }
@@ -23,7 +28,11 @@ const TagsCloud: React.FC<Props> = ({ tags, selectedTag }: Props) => {
         All
       </Tag>
       {tags.map((tag) => (
-        <Tag key={tag.slug} href={tag.slug} selected={tag.slug === selectedTag}>
+        <Tag
+          key={tag.slug}
+          onClick={() => onChangeCategory(tag.id)}
+          selected={tag.id === selectedCategoryId}
+        >
           {tag.name}
         </Tag>
       ))}

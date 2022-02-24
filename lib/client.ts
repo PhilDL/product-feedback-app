@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { FeedbackModel } from "../types/models";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPBASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -34,4 +35,21 @@ export const addUpvote = (feedbackId: number, userId: string) => {
   return client
     .from("upvotes")
     .insert([{ feedback_id: feedbackId, user_id: userId }]);
+};
+
+export const getAllFeedbacks = () => {
+  return client
+    .from<FeedbackModel>("feedbacks")
+    .select(
+      `
+  *, 
+  category:categories (id, name, slug),
+  comments!comments_feedback_id_fkey (id, content),
+  user:profiles!feedbacks_user_id_fkey (id, username, avatar_url, full_name),
+  upvotes (user_id),
+  upvotesCount:upvotes(count),
+  commentsCount:comments!comments_feedback_id_fkey(count)
+  `
+    )
+    .order("id");
 };
