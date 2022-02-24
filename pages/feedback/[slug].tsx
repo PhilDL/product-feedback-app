@@ -9,6 +9,7 @@ import AddCommentForm from "../../components/AddCommentForm";
 import { supabaseClient, getFeedbackBySlug } from "../../lib/client";
 import type { GetStaticProps } from "next";
 import type { FeedbackModel } from "../../types/models";
+import { useUser } from "../../utils/useUser";
 
 export interface FeedbackDetailsProps {
   fallback: any;
@@ -27,13 +28,20 @@ const FeedbackComponent = ({ slug }: FeedbackComponentProps) => {
   const { data: feedback } = useSWR(`/api/feedback/${slug}`, fetcher);
   const { mutate } = useSWRConfig();
   const comments = feedback?.comments || [];
+
   const onAddCommentHandler = () => {
-    console.log("Adding comment... SWR mutate");
+    mutate(`/api/feedback/${slug}`);
+  };
+  const upvoteCallBack = () => {
     mutate(`/api/feedback/${slug}`);
   };
   return (
     <main className="flex flex-col w-full gap-7">
-      <Feedback feedback={feedback} commentsCount={comments?.length || 0} />
+      <Feedback
+        feedback={feedback}
+        commentsCount={comments?.length || 0}
+        upvoteCallBack={upvoteCallBack}
+      />
       <CommentsList
         comments={comments || []}
         totalComments={comments?.length || 0}
@@ -69,7 +77,7 @@ const FeedbackDetails: React.FC<FeedbackDetailsProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const slug = context.params?.slug;
+  const slug = context.params?.slug as string;
 
   const { data: feedback, error: feedbacksError } = await getFeedbackBySlug(
     slug

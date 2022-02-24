@@ -4,11 +4,15 @@ import Link from "next/link";
 import SortDropdown from "./UI/SortDropdown";
 type Props = {
   feedbackCount: number;
+  onChangeSort: (sort: string) => void;
 };
 
-const FeedbacksListHeader: React.FC<Props> = ({ feedbackCount }: Props) => {
-  const onChangeSort = (sort: string) => {
-    console.log("New sort:", sort);
+const FeedbacksListHeader: React.FC<Props> = ({
+  feedbackCount,
+  onChangeSort,
+}: Props) => {
+  const changeSortHandler = (sort: string) => {
+    onChangeSort(sort);
   };
   return (
     <div className="flex flex-row gap-4 rounded p-4 justify-between items-center bg-blue-dark text-white">
@@ -29,7 +33,7 @@ const FeedbacksListHeader: React.FC<Props> = ({ feedbackCount }: Props) => {
       </div>
       <SortDropdown
         defaultValue="most-upvotes"
-        onChangeSort={onChangeSort}
+        onChangeSort={changeSortHandler}
         options={{
           "most-upvotes": "Most Upvotes",
           "least-upvotes": "Least Upvotes",

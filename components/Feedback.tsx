@@ -1,35 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tag from "./UI/Tag";
 import Card from "./UI/Card";
 import Upvote from "./UI/Upvote";
 import type { FeedbackModel } from "../types/models";
+import type { Upvotes } from "../types/database";
+import { useUser } from "../utils/useUser";
+import { deleteUpvote, addUpvote } from "../lib/client";
 
 type Props = {
   feedback: FeedbackModel;
-  userUpvote?: boolean;
   commentsCount?: number;
+  upvoteCallBack?: () => void;
 };
 
 const Feedback: React.FC<Props> = ({
   feedback,
-  userUpvote = false,
   commentsCount = 0,
+  upvoteCallBack = () => {},
 }: Props) => {
-  const [upvotesCount, setUpvotesCount] = useState(
-    feedback.upvotes?.length || 0
-  );
-  const [upvoted, setUpvoted] = useState(userUpvote);
+  const { user } = useUser();
+  const [upvoted, setUpvoted] = useState(false);
 
-  const handleClickUpvote = () => {
-    setUpvoted(!upvoted);
-    setUpvotesCount(upvoted ? upvotesCount - 1 : upvotesCount + 1);
+  useEffect(() => {
+    if (user) {
+      const upvote = feedback.upvotes.find(
+        (upvote: Upvotes) => upvote.user_id === user.id
+      );
+      if (upvote) {
+        setUpvoted(true);
+      } else {
+        setUpvoted(false);
+      }
+    }
+  }, [user, feedback]);
+
+  const handleClickUpvote = async () => {
+    if (user) {
+      if (upvoted) {
+        const { data, error } = await deleteUpvote(feedback.id, user.id);
+        console.log("delete upvote", data);
+      } else {
+        const { data, error } = await addUpvote(feedback.id, user.id);
+        console.log("new upvote", data);
+      }
+      upvoteCallBack();
+    }
   };
   return (
     <Card className="flex-row gap-10 justify-between items-start">
       <div className="flex-1">
         <Upvote
           active={upvoted}
-          count={upvotesCount}
+          count={feedback.upvotes?.length || 0}
           onClick={handleClickUpvote}
         />
       </div>

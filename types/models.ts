@@ -14,8 +14,8 @@ export interface CommentModel extends Comment {
 export interface FeedbackModel extends Feedback {
   user: UserProfile;
   category: Category;
-  comments?: CommentModel[];
-  upvotes?: Upvotes[];
+  comments: CommentModel[];
+  upvotes: Upvotes[];
 }
 
 export interface CategoryModel extends Category {}

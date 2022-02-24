@@ -5,13 +5,9 @@ import type { FeedbackModel } from "../types/models";
 
 type Props = {
   feedbacks: FeedbackModel[];
-  userUpvotedFeedbacksIds?: number[];
 };
 
-const FeedbacksList: React.FC<Props> = ({
-  feedbacks,
-  userUpvotedFeedbacksIds,
-}: Props) => {
+const FeedbacksList: React.FC<Props> = ({ feedbacks }: Props) => {
   if (feedbacks.length === 0) {
     return <NoFeedback />;
   }
@@ -22,10 +18,6 @@ const FeedbacksList: React.FC<Props> = ({
           key={feedback.id}
           feedback={feedback}
           commentsCount={feedback.comments?.length || 0}
-          userUpvote={
-            userUpvotedFeedbacksIds &&
-            userUpvotedFeedbacksIds.includes(feedback.id)
-          }
         />
       ))}
     </div>

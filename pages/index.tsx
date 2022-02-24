@@ -25,6 +25,9 @@ const Suggestions: React.FC<SuggestionsProps> = ({
   feedbacks,
   feedbackStatuses,
 }) => {
+  const changeSortHandler = (sort: string) => {
+    console.log(sort);
+  };
   return (
     <div className="flex min-h-screen py-2 container mx-auto gap-7">
       <Head>
@@ -37,8 +40,11 @@ const Suggestions: React.FC<SuggestionsProps> = ({
         <RoadmapMenu feedbackStatuses={feedbackStatuses} />
       </nav>
       <main className="flex flex-col w-full gap-7">
-        <FeedbacksListHeader feedbackCount={feedbacks.length} />
-        <FeedbacksList feedbacks={feedbacks} userUpvotedFeedbacksIds={[]} />
+        <FeedbacksListHeader
+          feedbackCount={feedbacks.length}
+          onChangeSort={changeSortHandler}
+        />
+        <FeedbacksList feedbacks={feedbacks} />
       </main>
     </div>
   );
