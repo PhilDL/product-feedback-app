@@ -2,37 +2,38 @@ import Head from "next/head";
 import React, { useMemo } from "react";
 import ApplicationLogo from "../components/UI/ApplicationLogo";
 import FeedbacksListHeader from "../components/FeedbacksListHeader";
-import FeedbackSWRComponent from "../components/FeedbackSWRComponent";
-import NoFeedback from "../components/NoFeedback";
+import FeedbacksList from "../components/FeedbacksList";
 import RoadmapMenu from "../components/RoadmapMenu";
 import TagsCloud from "../components/TagsCloud";
-import { getAllFeedbacks } from "../lib/client";
+import { getAllFeedbacks, deleteUpvote, addUpvote } from "../lib/client";
 import { supabaseClient } from "../lib/client";
-import useSWR, { SWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import type { GetStaticProps } from "next";
-import type {
-  FeedbackModel,
-  CategoryModel,
-  FeedbackStatusAggregate,
-} from "../types/models";
+import type { FeedbackModel, CategoryModel } from "../types/models";
+import { useUser } from "../utils/useUser";
 
-export interface SuggestionsContentProps {
+export interface SuggestionsProps {
   categories: CategoryModel[];
+  initialFeedbacks: FeedbackModel[];
 }
 
-const fetcher = async (input: RequestInfo) => {
-  const res: Response = await fetch(input);
-  return await res.json();
-};
+// const useStaleWhileRevalidatedFeedback = (initFeedback: FeedbackModel) => {
+//   return useSWR(`/api/feedback/${initFeedback.slug}`, {
+//     fallbackData: initFeedback,
+//   });
+// };
 
-const SuggestionsContent: React.FC<SuggestionsContentProps> = ({
+const Suggestions: React.FC<SuggestionsProps> = ({
   categories,
+  initialFeedbacks,
 }) => {
-  const { data: feedbacks } = useSWR<FeedbackModel[]>(
-    `/api/feedbacks`,
-    fetcher,
-    { revalidateOnMount: false, revalidateOnFocus: false }
-  );
+  const { mutate, cache } = useSWRConfig();
+  const { data: feedbacks } = useSWR<FeedbackModel[]>(`/api/feedbacks`, {
+    revalidateOnMount: false,
+    revalidateOnFocus: false,
+    fallbackData: initialFeedbacks,
+  });
+  const { user } = useUser();
   const [feedbacksSort, setFeedbacksSort] =
     React.useState<string>("most-upvotes");
   const [selectedCategoryId, setSelectedCategoryId] =
@@ -45,22 +46,23 @@ const SuggestionsContent: React.FC<SuggestionsContentProps> = ({
         (feedback) => feedback.category.id === selectedCategoryId
       );
     }
-    if (feedbacksSort === "most-upvotes") {
-      return sortedFeedbacks?.sort(
-        (a, b) => b.upvotes.length - a.upvotes.length
-      );
-    } else if (feedbacksSort === "most-comments") {
-      return sortedFeedbacks?.sort(
-        (a, b) => b.comments.length - a.comments.length
-      );
-    } else if (feedbacksSort === "least-upvotes") {
-      return sortedFeedbacks?.sort(
-        (a, b) => a.upvotes.length - b.upvotes.length
-      );
-    } else if (feedbacksSort === "least-comments") {
-      return sortedFeedbacks?.sort(
-        (a, b) => a.comments.length - b.comments.length
-      );
+    switch (feedbacksSort) {
+      case "most-upvotes":
+        return sortedFeedbacks?.sort(
+          (a, b) => b.upvotes.length - a.upvotes.length
+        );
+      case "most-comments":
+        return sortedFeedbacks?.sort(
+          (a, b) => b.comments.length - a.comments.length
+        );
+      case "least-upvotes":
+        return sortedFeedbacks?.sort(
+          (a, b) => a.upvotes.length - b.upvotes.length
+        );
+      case "least-comments":
+        return sortedFeedbacks?.sort(
+          (a, b) => a.comments.length - b.comments.length
+        );
     }
   }, [feedbacks, feedbacksSort, selectedCategoryId]);
 
@@ -81,12 +83,31 @@ const SuggestionsContent: React.FC<SuggestionsContentProps> = ({
     }
   }
   const changeSortHandler = (sort: string) => {
-    console.log(sort);
     setFeedbacksSort(sort);
   };
 
+  const onChangeUpvoteHandler = async (
+    feedbackSlug: string,
+    feedbackId: number,
+    oldUpvoteState: boolean
+  ) => {
+    if (user) {
+      if (oldUpvoteState) {
+        const { data, error } = await deleteUpvote(feedbackId, user.id);
+      } else {
+        const { data, error } = await addUpvote(feedbackId, user.id);
+      }
+      mutate(`/api/feedback/${feedbackSlug}`);
+      mutate(`/api/feedbacks`);
+    }
+  };
+
   return (
-    <>
+    <div className="flex min-h-screen py-2 container mx-auto gap-7">
+      <Head>
+        <title>Feedback App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <nav className="flex flex-col gap-6 max-w-xs">
         <ApplicationLogo />
         <TagsCloud
@@ -101,74 +122,21 @@ const SuggestionsContent: React.FC<SuggestionsContentProps> = ({
           feedbackCount={feedbacks?.length || 0}
           onChangeSort={changeSortHandler}
         />
-        {(sortedFeedbacks?.length || 0) > 0 ? (
-          <div className="flex flex-col gap-4">
-            {sortedFeedbacks &&
-              sortedFeedbacks.map((feedback) => (
-                <FeedbackSWRComponent
-                  key={feedback.slug}
-                  slug={feedback.slug}
-                />
-              ))}
-          </div>
-        ) : (
-          <NoFeedback />
-        )}
+        <FeedbacksList
+          feedbacks={sortedFeedbacks || []}
+          upvoteCallBack={onChangeUpvoteHandler}
+        />
       </main>
-    </>
-  );
-};
-
-export interface SuggestionsProps {
-  categories: CategoryModel[];
-  feedbacks: FeedbackModel[];
-  feedbackStatuses: FeedbackStatusAggregate[];
-  fallback: any;
-}
-
-const Suggestions: React.FC<SuggestionsProps> = ({
-  categories,
-  feedbacks,
-  feedbackStatuses,
-  fallback,
-}) => {
-  return (
-    <SWRConfig value={{ fallback }}>
-      <div className="flex min-h-screen py-2 container mx-auto gap-7">
-        <Head>
-          <title>Feedback App</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <SuggestionsContent categories={categories} />
-      </div>
-    </SWRConfig>
+    </div>
   );
 };
 
 export default Suggestions;
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const feedbackStatuses = [
-    { name: "Planned", key: "planned", count: 0, color: "#F49F85" },
-    { name: "In-Progress", key: "in-progress", count: 0, color: "#AD1FEA" },
-    { name: "Live", key: "live", count: 0, color: "#62BCFA" },
-  ];
-
   const { data: feedbacks, error: feedbacksError } = await getAllFeedbacks();
-  const fallback: { [key: string]: any } = { "/api/feedbacks": feedbacks };
   if (feedbacks) {
     feedbacks?.sort((a, b) => b.upvotes.length - a.upvotes.length);
-    for (const feedback of feedbacks) {
-      let key = `/api/feedback/${feedback.slug}`;
-      fallback[key] = feedback;
-      const { status } = feedback;
-      const statusIndex = feedbackStatuses.findIndex(
-        (statusItem) => statusItem.key === status
-      );
-      if (statusIndex !== -1) {
-        feedbackStatuses[statusIndex].count++;
-      }
-    }
   }
 
   const { data: categories, error: categoriesError } = await supabaseClient
@@ -178,11 +146,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      feedbacks: feedbacks,
+      initialFeedbacks: feedbacks,
       categories: categories,
-      feedbackStatuses: feedbackStatuses,
-      fallback: fallback,
     },
-    revalidate: 60, // seconds
+    revalidate: 30, // seconds
   };
 };

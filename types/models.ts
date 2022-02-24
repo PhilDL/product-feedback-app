@@ -9,6 +9,7 @@ import type {
 export interface CommentModel extends Comment {
   user: UserProfile;
   replies?: CommentModel[];
+  replying_to_user?: UserProfile;
 }
 
 export interface FeedbackModel extends Feedback {

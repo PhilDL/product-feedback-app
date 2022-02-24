@@ -29,7 +29,7 @@ export interface Comment {
   feedback_id: number;
   parent_id?: number;
   has_replies: boolean;
-  replying_to?: string;
+  replying_to?: number;
 }
 
 export interface Feedback {

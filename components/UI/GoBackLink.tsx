@@ -9,7 +9,6 @@ const GoBackLink: React.FC<Props> = React.forwardRef<Ref, Props>(
     const { onClick, href, ...rest } = props;
     return (
       <a
-        href={href}
         onClick={onClick}
         ref={ref}
         className="flex items-center text-gray-500 text-sm font-bold cursor-pointer hover:text-gray-700"

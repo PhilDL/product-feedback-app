@@ -5,24 +5,26 @@ import Upvote from "./UI/Upvote";
 import type { FeedbackModel } from "../types/models";
 import type { Upvotes } from "../types/database";
 import { useUser } from "../utils/useUser";
-import { deleteUpvote, addUpvote } from "../lib/client";
+import Link from "next/link";
 
 type Props = {
   feedback: FeedbackModel;
-  commentsCount?: number;
-  upvoteCallBack?: () => void;
+  upvoteCallBack?: (
+    feedbackSlug: string,
+    feedbackId: number,
+    oldUpvoteState: boolean
+  ) => void;
 };
 
 const Feedback: React.FC<Props> = ({
   feedback,
-  commentsCount = 0,
   upvoteCallBack = () => {},
 }: Props) => {
   const { user } = useUser();
   const [upvoted, setUpvoted] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    if (user && feedback) {
       const upvote = feedback.upvotes.find(
         (upvote: Upvotes) => upvote.user_id === user.id
       );
@@ -34,34 +36,30 @@ const Feedback: React.FC<Props> = ({
     }
   }, [user, feedback]);
 
-  const handleClickUpvote = async () => {
-    if (user) {
-      if (upvoted) {
-        const { data, error } = await deleteUpvote(feedback.id, user.id);
-        console.log("delete upvote", data);
-      } else {
-        const { data, error } = await addUpvote(feedback.id, user.id);
-        console.log("new upvote", data);
-      }
-      upvoteCallBack();
-    }
-  };
+  if (!feedback) {
+    return <div>Error</div>;
+  }
+
+  const commentsCount = feedback.comments?.length || 0;
   return (
     <Card className="flex-row gap-10 justify-between items-start">
       <div className="flex-1">
         <Upvote
           active={upvoted}
           count={feedback.upvotes?.length || 0}
-          onClick={handleClickUpvote}
+          onClick={() => upvoteCallBack(feedback.slug, feedback.id, upvoted)}
         />
       </div>
       <div className="flex flex-col w-full">
-        <a href={`/feedback/${feedback.slug}`}>
-          <h3 className="text-gray-700 text-lg font-bold mb-1 hover:text-blue">
-            {feedback.title}
-          </h3>
-          <p className="text-gray-500 font-normal">{feedback.description}</p>
-        </a>
+        <Link href={`/feedback/${feedback.slug}`} passHref>
+          <a>
+            <h3 className="text-gray-700 text-lg font-bold mb-1 hover:text-blue">
+              {feedback.title}
+            </h3>
+            <p className="text-gray-500 font-normal">{feedback.description}</p>
+          </a>
+        </Link>
+
         <div className="mt-4">
           <Tag href={feedback.category.slug}>{feedback.category.name}</Tag>
         </div>

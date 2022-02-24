@@ -5,9 +5,17 @@ import type { FeedbackModel } from "../types/models";
 
 type Props = {
   feedbacks: FeedbackModel[];
+  upvoteCallBack?: (
+    feedbackSlug: string,
+    feedbackId: number,
+    oldUpvoteState: boolean
+  ) => void;
 };
 
-const FeedbacksList: React.FC<Props> = ({ feedbacks }: Props) => {
+const FeedbacksList: React.FC<Props> = ({
+  feedbacks,
+  upvoteCallBack = () => {},
+}: Props) => {
   if (feedbacks.length === 0) {
     return <NoFeedback />;
   }
@@ -17,7 +25,7 @@ const FeedbacksList: React.FC<Props> = ({ feedbacks }: Props) => {
         <Feedback
           key={feedback.id}
           feedback={feedback}
-          commentsCount={feedback.comments?.length || 0}
+          upvoteCallBack={upvoteCallBack}
         />
       ))}
     </div>

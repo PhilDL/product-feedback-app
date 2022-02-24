@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { GetStaticProps } from "next";
 import Link from "next/link";
-
+import { useSWRConfig } from "swr";
 import { useRouter } from "next/router";
-import { supabaseClient } from "../lib/client";
+import { supabaseClient, getAllFeedbacks } from "../lib/client";
 import { slugify } from "../lib/utils";
 import Card from "../components/UI/Card";
 import Button from "../components/UI/Button";
@@ -29,6 +29,7 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
   const [error, setError] = useState<string | null>(null);
   const { user } = useUser();
   const router = useRouter();
+  const { mutate, cache } = useSWRConfig();
 
   const loginButtonHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -62,6 +63,9 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
       setError(null);
     }
     setSubmitting(false);
+    const { data: newFeedbacks, error: newFeedbacksError } =
+      await getAllFeedbacks();
+    mutate("/api/feedbacks", newFeedbacks);
     router.push("/");
   };
 

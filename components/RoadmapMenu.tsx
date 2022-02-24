@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./UI/Card";
+import Link from "next/link";
 import type { FeedbackStatusAggregate } from "../types/models";
 
 type Props = {
@@ -11,9 +12,9 @@ const RoadmapMenu: React.FC<Props> = ({ feedbackStatuses }: Props) => {
     <Card className="flex-col gap-3 items-start">
       <div className="flex w-full flex-row justify-between">
         <h3 className="text-gray-700 text-lg font-bold">Roadmap</h3>
-        <a href="/roadmap" className="underline text-blue text-sm">
-          View
-        </a>
+        <Link href="/roadmap" passHref>
+          <a className="underline text-blue text-sm">View</a>
+        </Link>
       </div>
       {feedbackStatuses.map((feedbackStatus) => (
         <div

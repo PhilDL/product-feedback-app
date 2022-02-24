@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import type { CommentModel } from "../types/models";
 import Image from "next/image";
+import Button from "./UI/Button";
+import UnstyledButton from "./UI/UnstyledButton";
+import CommentReply from "./CommentReply";
 
 type Props = {
   comment: CommentModel;
+  onAddComment: () => void;
 };
 
-const Comment: React.FC<Props> = ({ comment }: Props) => {
-  const { user, content, replying_to: replyingTo, replies } = comment;
+const Comment: React.FC<Props> = ({ comment, onAddComment }: Props) => {
+  const { user, content, replying_to_user: replyingTo, replies } = comment;
+  const [showReplyBox, setShowReplyBox] = useState<boolean>(false);
+
+  const closeReplayAndPropagate = () => {
+    setShowReplyBox(false);
+    onAddComment();
+  };
 
   return (
-    <section className="feedback-comment">
+    <section className="feedback-comment w-full">
       <div
         className={`relative ${replyingTo && "ml-10"} ${
           replies && replies.length > 0 && "with-replies"
@@ -32,26 +42,41 @@ const Comment: React.FC<Props> = ({ comment }: Props) => {
             />
           </div>
           <div className="flex flex-col w-full pl-10">
-            <span>
-              <h3 className="text-gray-700 text-sm font-bold tracking-tight">
-                {user.full_name}
-              </h3>
-              <span className="text-sm">@{user.username}</span>
-            </span>
+            <div className="flex justify-between">
+              <div>
+                <h3 className="text-gray-700 text-sm font-bold tracking-tight">
+                  {user.full_name}
+                </h3>
+                <span className="text-sm">@{user.username}</span>
+              </div>
+              <UnstyledButton onClick={() => setShowReplyBox((show) => !show)}>
+                Reply
+              </UnstyledButton>
+            </div>
             <p className="mt-2 max-w-prose">
               {replyingTo && (
                 <span className="font-bold text-fushia mr-3">
-                  @{replyingTo}
+                  @{replyingTo.username}
                 </span>
               )}
               {content}
             </p>
+            {showReplyBox && (
+              <CommentReply
+                comment={comment}
+                onAddComment={closeReplayAndPropagate}
+              />
+            )}
           </div>
         </div>
         {replies && replies.length > 0 && (
           <div className="bg-white flex flex-col justify-between items-start">
             {replies.map((reply) => (
-              <Comment key={reply.id} comment={reply} />
+              <Comment
+                key={reply.id}
+                comment={reply}
+                onAddComment={onAddComment}
+              />
             ))}
           </div>
         )}

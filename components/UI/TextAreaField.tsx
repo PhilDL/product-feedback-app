@@ -2,7 +2,7 @@ import React from "react";
 import { useField, FieldConfig } from "formik";
 
 export interface TextAreaFieldProps extends FieldConfig<any> {
-  label: string;
+  label?: string;
   help?: string;
   className?: string;
   required?: boolean;
@@ -13,6 +13,25 @@ export interface TextAreaFieldProps extends FieldConfig<any> {
 const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
   const [field, meta] = useField(props);
   const { label, help, className, labelSize = undefined, ...rest } = props;
+  if (!label) {
+    return (
+      <>
+        <textarea
+          className={`py-3 px-6 text-gray-700 bg-gray-300 text-sm rounded-input ${className} ${
+            meta.touched && meta.error && "outline outline-red"
+          }`}
+          rows={5}
+          {...field}
+          {...rest}
+        />
+        {meta.touched && meta.error ? (
+          <small className="text-red">{meta.error}</small>
+        ) : (
+          <small></small>
+        )}
+      </>
+    );
+  }
   return (
     <div className="flex flex-col gap-3">
       <label

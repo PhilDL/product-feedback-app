@@ -42,7 +42,6 @@ const AddCommentForm: React.FC<AddCommentFormProps> = ({
           feedback_id: feedbackId,
         },
       ]);
-    console.log("newComment", newComment);
     if (error) {
       setError(error.message);
       return;

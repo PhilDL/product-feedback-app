@@ -15,7 +15,7 @@ export const getFeedbackBySlug = (slug: string) => {
       `
 *, 
 category:categories (id, name, slug),
-comments!comments_feedback_id_fkey (*, user:profiles!comments_user_id_fkey (id, username, avatar_url, full_name)),
+comments!comments_feedback_id_fkey (*, user:profiles!comments_user_id_fkey (id, username, avatar_url, full_name), replying_to_user:profiles!comments_replying_to_fkey (id, username, avatar_url, full_name)),
 user:profiles!feedbacks_user_id_fkey (id, username, avatar_url, full_name),
 upvotes (user_id)
 `
