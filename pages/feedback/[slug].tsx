@@ -15,6 +15,7 @@ import CommentsList from "../../components/CommentsList";
 import AddCommentForm from "../../components/AddCommentForm";
 import type { GetStaticProps } from "next";
 import { useUser } from "../../utils/useUser";
+import ButtonLink from "../../components/UI/ButtonLink";
 
 export interface FeedbackDetailsProps {
   initFeedback: FeedbackModel;
@@ -61,9 +62,12 @@ const FeedbackDetails: React.FC<FeedbackDetailsProps> = ({
         <title>{feedback.title} | Product Feedback App</title>
         <meta name="description" content={feedback.description} />
       </Head>
-      <header>
+      <header className="flex justify-between mt-6">
         <Link href="/" passHref>
           <GoBackLink />
+        </Link>
+        <Link href={`/edit/${feedback.slug}`} passHref>
+          <ButtonLink role="secondary">Edit Feedback</ButtonLink>
         </Link>
       </header>
       <main className="flex flex-col w-full gap-7">
