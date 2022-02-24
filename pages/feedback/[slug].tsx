@@ -58,8 +58,8 @@ const FeedbackDetails: React.FC<FeedbackDetailsProps> = ({
   return (
     <div className="flex flex-col min-h-screen py-2 container mx-auto gap-7 max-w-3xl  justify-center">
       <Head>
-        <title>Feedback App </title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>{feedback.title} | Product Feedback App</title>
+        <meta name="description" content={feedback.description} />
       </Head>
       <header>
         <Link href="/" passHref>

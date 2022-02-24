@@ -105,8 +105,11 @@ const Suggestions: React.FC<SuggestionsProps> = ({
   return (
     <div className="flex min-h-screen py-2 container mx-auto gap-7">
       <Head>
-        <title>Feedback App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Homepage | Product Feedback App</title>
+        <meta
+          name="description"
+          content="Product Feedback App built with NextJS, Supabase, TailwindCSS 3, SWR"
+        />
       </Head>
       <nav className="flex flex-col gap-6 max-w-xs">
         <ApplicationLogo />

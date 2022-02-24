@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Head from "next/head";
 import { GetStaticProps } from "next";
 import Link from "next/link";
 import { useSWRConfig } from "swr";
@@ -87,6 +88,13 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
 
   return (
     <div className="flex min-h-screen py-7 container mx-auto max-w-xl">
+      <Head>
+        <title>Shubmit a new Feedback | Product Feedback App</title>
+        <meta
+          name="description"
+          content="Submit a new feedback here, please be descriptive."
+        />
+      </Head>
       <main className="flex flex-col w-full gap-7 justify-around">
         <header>
           <Link href="/" passHref>

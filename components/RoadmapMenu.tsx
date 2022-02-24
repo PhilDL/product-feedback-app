@@ -11,7 +11,7 @@ const RoadmapMenu: React.FC<Props> = ({ feedbackStatuses }: Props) => {
   return (
     <Card className="flex-col gap-3 items-start">
       <div className="flex w-full flex-row justify-between">
-        <h3 className="text-gray-700 text-lg font-bold">Roadmap</h3>
+        <h2 className="text-gray-700 text-lg font-bold">Roadmap</h2>
         <Link href="/roadmap" passHref>
           <a className="underline text-blue text-sm">View</a>
         </Link>

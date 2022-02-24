@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Head from "next/head";
 import Link from "next/link";
 import GoBackLink from "../../components/UI/GoBackLink";
 import Card from "../../components/UI/Card";
@@ -83,6 +84,13 @@ const SignUp = () => {
 
   return (
     <div className="flex flex-col min-h-screen py-7 container mx-auto max-w-xl justify-center gap-10">
+      <Head>
+        <title>Signup | Product Feedback App</title>
+        <meta
+          name="description"
+          content="Signup to be able to create new feedbacks and participate in discussions."
+        />
+      </Head>
       <header>
         <Link href="/" passHref>
           <GoBackLink />

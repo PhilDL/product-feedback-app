@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import Link from "next/link";
 import { useUser } from "../utils/useUser";
 
@@ -11,6 +12,9 @@ const Layout: React.FC<Props> = ({ children }) => {
 
   return (
     <>
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {children}
       <footer className="w-full py-7 flex items-center justify-center">
         {user ? (

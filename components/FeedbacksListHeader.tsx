@@ -29,7 +29,7 @@ const FeedbacksListHeader: React.FC<Props> = ({
             fillRule="nonzero"
           />
         </svg>
-        <span className="text-lg font-bold">{feedbackCount} Suggestions</span>
+        <h2 className="text-lg font-bold">{feedbackCount} Suggestions</h2>
       </div>
       <SortDropdown
         defaultValue="most-upvotes"
