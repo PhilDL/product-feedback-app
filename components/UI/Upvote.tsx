@@ -4,13 +4,18 @@ type Props = {
   active: boolean;
   count: number;
   [x: string]: any;
+  inlineStyle?: boolean;
 };
 
 const Upvote: React.FC<Props> = (props) => {
-  const { count, active, ...rest } = props;
+  const { count, active, inlineStyle, ...rest } = props;
   return (
     <button
-      className={`py-2.5 px-2 flex flex-col items-center gap-1.5 justify-between text-center font-bold text-xs rounded ${
+      className={`flex ${
+        inlineStyle
+          ? "flex-row py-2 px-4 gap-2.5"
+          : "flex-col py-2.5 px-2 gap-1.5"
+      } items-center justify-between text-center font-bold text-xs rounded ${
         active
           ? "text-white bg-blue hover:bg-blue-light"
           : "text-gray-700 bg-gray-100 hover:bg-gray-100-lighter"

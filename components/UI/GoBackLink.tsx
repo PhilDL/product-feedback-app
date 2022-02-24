@@ -1,17 +1,27 @@
 import React from "react";
 export type Ref = HTMLAnchorElement;
+
+// enum Theme {
+//   Light = "light",
+//   Dark = "dark",
+// }
 type Props = {
   [x: string]: any;
+  theme?: string;
 };
 
 const GoBackLink: React.FC<Props> = React.forwardRef<Ref, Props>(
   function GoBackLink(props, ref) {
-    const { onClick, href, ...rest } = props;
+    const { onClick, href, theme = "light", ...rest } = props;
     return (
       <a
         onClick={onClick}
         ref={ref}
-        className="flex items-center text-gray-500 text-sm font-bold cursor-pointer hover:text-gray-700"
+        className={`flex items-center ${
+          theme === "light"
+            ? "text-gray-500 hover:text-gray-700"
+            : "text-white hover:text-gray-300"
+        } text-sm font-bold cursor-pointer `}
         {...rest}
       >
         <svg
@@ -22,7 +32,7 @@ const GoBackLink: React.FC<Props> = React.forwardRef<Ref, Props>(
         >
           <path
             d="M6 9L2 5l4-4"
-            stroke="#4661E6"
+            stroke={theme === "light" ? "#4661E6" : "white"}
             strokeWidth="2"
             fill="none"
             fillRule="evenodd"
