@@ -17,7 +17,6 @@ This is a solution to the [Product feedback app challenge on Frontend Mentor](ht
     - [What I learned](#what-i-learned)
     - [Continued development](#continued-development)
   - [Author](#author)
-  - [Author](#author-1)
   - [Acknowledgments](#acknowledgments)
 
 ## Overview
@@ -58,6 +57,7 @@ Users should be able to:
 - Flexbox
 - Mobile-first workflow
 - Accessibility
+- TypeScript
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
 - [SWR](https://swr.vercel.app/) - React Hooks for Data Fetching
@@ -66,6 +66,8 @@ Users should be able to:
 - [Storybook](https://storybook.js.org) - Storybook: UI component explorer for frontend developers
 
 ### What I learned
+
+My initial requirement was to practice some TypeScript, so I used a lot (https://react-typescript-cheatsheet.netlify.app/)[https://react-typescript-cheatsheet.netlify.app/] and tried to apply some of the good practices.
 
 I wasn't sure wich technology between Remix and NextJS to practice/learn so i begin by doing a Design System of React components with StoryBook and Tailwind (easier to migrate between Next and Remix, i also wanted to use something else than styled components). The goal was to make a Fullstack App.
 
@@ -77,14 +79,6 @@ The thing i'm most proud about is how i handle the thin grey left line when insi
 
 - I would like to make some refactoring into hooks to clean up code.
 - Storybook is now broken, some of the Components need special Context and i'm not proud about that. I would like them to be the most presentationnal possible but i still need some work.
-
-## Author
-
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
 
 ## Author
 
