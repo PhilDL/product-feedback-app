@@ -13,12 +13,10 @@ export const Default = Template.bind({});
 Default.args = {
   children: "Enhancement",
   role: "Default",
-  href: "#",
 };
 
 export const Selected = Template.bind({});
 Selected.args = {
   children: "Feature",
   selected: true,
-  href: "#",
 };

@@ -50,7 +50,7 @@ const Feedback: React.FC<Props> = ({
           </a>
         </Link>
         <div className="mt-4">
-          <Tag href={feedback.category.slug}>{feedback.category.name}</Tag>
+          <Tag>{feedback.category.name}</Tag>
         </div>
       </div>
       <div className="flex flex-row justify-between w-full md:w-auto md:self-center md:flex-1">

@@ -51,7 +51,7 @@ const RoadmapFeedback: React.FC<RoadmapFeedbackProps> = ({
           </Link>
 
           <div className="mt-4">
-            <Tag href={feedback.category.slug}>{feedback.category.name}</Tag>
+            <Tag>{feedback.category.name}</Tag>
           </div>
         </div>
         <div className="flex justify-between w-full items-center">
