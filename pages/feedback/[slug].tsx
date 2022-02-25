@@ -57,7 +57,7 @@ const FeedbackDetails: React.FC<FeedbackDetailsProps> = ({
     return <div>ERRROR</div>;
   }
   return (
-    <div className="flex flex-col min-h-screen py-2 container mx-auto gap-7 max-w-3xl  justify-center">
+    <div className="flex flex-col min-h-screen py-2 px-6 md:px-0 container mx-auto gap-7 max-w-3xl justify-center">
       <Head>
         <title>{feedback.title} | Product Feedback App</title>
         <meta name="description" content={feedback.description} />

@@ -87,7 +87,7 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
   });
 
   return (
-    <div className="flex min-h-screen py-7 container mx-auto max-w-xl">
+    <div className="flex min-h-screen py-7 px-6 md:px-0 container mx-auto max-w-xl">
       <Head>
         <title>Shubmit a new Feedback | Product Feedback App</title>
         <meta
@@ -96,7 +96,7 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
         />
       </Head>
       <main className="flex flex-col w-full gap-7 justify-around">
-        <header>
+        <header className="py-7">
           <Link href="/" passHref>
             <GoBackLink />
           </Link>
@@ -159,10 +159,7 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
                 label="Feedback Detail"
                 help="Include any specific comments on what should be improved, added, etc."
               />
-              <div className="flex justify-between">
-                <Link href="/" passHref>
-                  <ButtonLink role="default">Cancel</ButtonLink>
-                </Link>
+              <div className="flex justify-between flex-col md:flex-row-reverse gap-3 text-center md:text-left md:gap-0">
                 {user && user.id ? (
                   <Button
                     type="submit"
@@ -176,6 +173,10 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
                     LogIn
                   </Button>
                 )}
+
+                <Link href="/" passHref>
+                  <ButtonLink role="default">Cancel</ButtonLink>
+                </Link>
               </div>
             </Form>
           </FormikProvider>

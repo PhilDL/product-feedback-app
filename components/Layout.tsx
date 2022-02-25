@@ -16,19 +16,18 @@ const Layout: React.FC<Props> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {children}
-      <footer className="w-full py-7 flex items-center justify-center">
+      <footer className="w-full py-7 px-6 text-center items-center justify-center md:px-0">
         {user ? (
           <>
-            Currently logged-in as{" "}
+            Logged-in as{" "}
             <span className="text-gray-500 ml-1">
               {userLoaded && userProfile.username}
             </span>
-            . Click{" "}
             <a
               className="cursor-pointer text-fushia hover:text-fushia-light ml-1"
               onClick={handleSignOut}
             >
-              here to log-out
+              Click here to log-out
             </a>
           </>
         ) : (

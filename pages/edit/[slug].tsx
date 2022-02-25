@@ -122,7 +122,7 @@ const EditFeedback: React.FC<EditFeedbackProps> = ({
   });
 
   return (
-    <div className="flex min-h-screen py-7 container mx-auto max-w-xl">
+    <div className="flex min-h-screen py-7  px-6 md:px-0 container mx-auto max-w-xl">
       <Head>
         <title>Editing {feedback.title}</title>
         <meta
@@ -131,7 +131,7 @@ const EditFeedback: React.FC<EditFeedbackProps> = ({
         />
       </Head>
       <main className="flex flex-col w-full gap-7 justify-around">
-        <header>
+        <header className="py-7">
           <Link href="/" passHref>
             <GoBackLink />
           </Link>
@@ -204,21 +204,8 @@ const EditFeedback: React.FC<EditFeedbackProps> = ({
                 label="Feedback Detail"
                 help="Include any specific comments on what should be improved, added, etc."
               />
-              <div className="flex justify-between">
-                {user && (
-                  <Button
-                    name="delete"
-                    role="danger"
-                    onClick={deleteButtonHandler}
-                    disabled={formik.isSubmitting}
-                  >
-                    Delete
-                  </Button>
-                )}
-                <div className="flex justify-between gap-3">
-                  <Link href="/" passHref>
-                    <ButtonLink role="default">Cancel</ButtonLink>
-                  </Link>
+              <div className="flex justify-between flex-col md:flex-row-reverse gap-3 text-center md:text-left md:gap-0">
+                <div className="flex flex-col gap-3 md:justify-between md:flex-row-reverse">
                   {user && user.id ? (
                     <Button
                       type="submit"
@@ -232,7 +219,20 @@ const EditFeedback: React.FC<EditFeedbackProps> = ({
                       LogIn
                     </Button>
                   )}
+                  <Link href="/" passHref>
+                    <ButtonLink role="default">Cancel</ButtonLink>
+                  </Link>
                 </div>
+                {user && (
+                  <Button
+                    name="delete"
+                    role="danger"
+                    onClick={deleteButtonHandler}
+                    disabled={formik.isSubmitting}
+                  >
+                    Delete
+                  </Button>
+                )}
               </div>
             </Form>
           </FormikProvider>
