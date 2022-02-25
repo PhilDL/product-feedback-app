@@ -30,8 +30,8 @@ const Suggestions: React.FC<SuggestionsProps> = ({
 }) => {
   const { mutate, cache } = useSWRConfig();
   const { data: feedbacks } = useSWR<FeedbackModel[]>(`/api/feedbacks`, {
-    revalidateOnMount: false,
-    revalidateOnFocus: false,
+    // revalidateOnMount: false,
+    // revalidateOnFocus: false,
     fallbackData: initialFeedbacks,
   });
   const { user } = useUser();

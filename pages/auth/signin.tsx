@@ -74,7 +74,7 @@ const SignIn = () => {
   });
 
   return (
-    <div className="flex flex-col min-h-screen py-7 container mx-auto max-w-xl justify-center gap-10">
+    <div className="flex flex-col min-h-screen px-6 md:px-0 py-7 container mx-auto max-w-xl justify-center gap-10">
       <Head>
         <title>Signin | Product Feedback App</title>
         <meta
@@ -145,14 +145,16 @@ const SignIn = () => {
                       <TextField
                         label="Email"
                         name="email"
+                        help="The signin link will be sent at that address."
                         required={true}
                         disabled={formikMagicLink.isSubmitting}
                       />
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-center gap-6 flex-col sm:flex-row-reverse mt-6">
                         <Button
                           type="submit"
                           role="primary"
                           disabled={formikMagicLink.isSubmitting}
+                          className="w-full sm:w-auto"
                         >
                           Sign in
                         </Button>
@@ -184,6 +186,7 @@ const SignIn = () => {
                     <TextField
                       label="Email"
                       name="email"
+                      help="Email used to signin"
                       required={true}
                       disabled={formikPassword.isSubmitting}
                     />
@@ -191,14 +194,16 @@ const SignIn = () => {
                       label="Password"
                       name="password"
                       type="password"
+                      help="Password used to signin"
                       required={true}
                       disabled={formikPassword.isSubmitting}
                     />
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center gap-6 flex-col sm:flex-row-reverse mt-6">
                       <Button
                         type="submit"
                         role="primary"
                         disabled={formikPassword.isSubmitting}
+                        className="w-full sm:w-auto"
                       >
                         Sign in
                       </Button>

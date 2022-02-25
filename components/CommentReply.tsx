@@ -64,7 +64,7 @@ const CommentReply: React.FC<Props> = ({ comment, onAddComment }: Props) => {
 
   return (
     <FormikProvider value={formik}>
-      <Form className="flex mt-6 justify-between gap-6 items-start">
+      <Form className="flex mt-6 justify-between gap-1 sm:gap-6 sm:items-start items-end flex-col sm:flex-row">
         {error && <div className="text-red">{error}</div>}
         <TextAreaField
           name="content"

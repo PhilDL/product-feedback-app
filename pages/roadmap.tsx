@@ -34,8 +34,8 @@ export interface FeedbackStatusAggregate {
 const Roadmap: React.FC<RoadmapProps> = ({ categories, initialFeedbacks }) => {
   const { mutate, cache } = useSWRConfig();
   const { data: feedbacks } = useSWR<FeedbackModel[]>(`/api/feedbacks`, {
-    revalidateOnMount: false,
-    revalidateOnFocus: false,
+    // revalidateOnMount: false,
+    // revalidateOnFocus: false,
     fallbackData: initialFeedbacks,
   });
   const { user } = useUser();
@@ -43,6 +43,8 @@ const Roadmap: React.FC<RoadmapProps> = ({ categories, initialFeedbacks }) => {
     React.useState<string>("most-upvotes");
   const [selectedCategoryId, setSelectedCategoryId] =
     React.useState<number | null>(null);
+  const [selectedStatus, setSelectedStatus] =
+    React.useState<string | null>(null);
 
   const sortedFeedbacks = useMemo(() => {
     let sortedFeedbacks: FeedbackModel[] = feedbacks || [];
@@ -130,7 +132,7 @@ const Roadmap: React.FC<RoadmapProps> = ({ categories, initialFeedbacks }) => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen py-2 container mx-auto gap-7">
+    <div className="flex flex-col min-h-screen container mx-auto sm:gap-7">
       <Head>
         <title>Homepage | Product Feedback App</title>
         <meta
@@ -138,12 +140,12 @@ const Roadmap: React.FC<RoadmapProps> = ({ categories, initialFeedbacks }) => {
           content="Product Feedback App built with NextJS, Supabase, TailwindCSS 3, SWR"
         />
       </Head>
-      <nav className="flex flex-row gap-4 rounded py-6 px-8 justify-between items-center bg-blue-dark text-white">
+      <nav className="flex flex-row gap-4 sm:rounded py-6 px-8 justify-between items-center bg-blue-dark text-white">
         <div>
           <Link href="/" passHref>
             <GoBackLink theme="dark" />
           </Link>
-          <h1 className="text-2xl font-bold">Roadmap</h1>
+          <h1 className="text-xl sm:text-2xl font-bold">Roadmap</h1>
         </div>
         <Link href="/new" passHref>
           <ButtonLink role="primary" className="ml-auto">
@@ -151,20 +153,43 @@ const Roadmap: React.FC<RoadmapProps> = ({ categories, initialFeedbacks }) => {
           </ButtonLink>
         </Link>
       </nav>
-      <main className="flex  w-full gap-7">
+      <nav className="flex gap-4 px-6 justify-between border-b-2 border-b-gray-500/20 mb-6 sm:hidden">
         {feedbackStatuses.map((feedbackStatus) => (
-          <div key={feedbackStatus.key}>
-            <h2 className="text-gray-700 font-bold text-lg">
-              {feedbackStatus.name} ({feedbackStatus.count})
-            </h2>
-            <p className="text-gray-500 mb-6">{feedbackStatus.description}</p>
-            <RoadmapFeedbacksList
-              feedbacks={feedbackStatus.feedbacks || []}
-              upvoteCallBack={onChangeUpvoteHandler}
-              statusColor={feedbackStatus.color}
-              statusName={feedbackStatus.name}
-            />
-          </div>
+          <button
+            key={`link-feedback-status-${feedbackStatus.key}`}
+            onClick={() => setSelectedStatus(feedbackStatus.key)}
+            className={`text-gray-700 text-sm font-bold pt-6 pb-4 w-full ${
+              feedbackStatus.key === selectedStatus
+                ? "border-b-fushia border-b-4"
+                : "border-b-transparent border-b-4 opacity-40"
+            }`}
+          >
+            {feedbackStatus.name} ({feedbackStatus.count})
+          </button>
+        ))}
+      </nav>
+      <main className="flex w-full gap-7 flex-col px-6 sm:flex-row sm:px-0">
+        {feedbackStatuses.map((feedbackStatus) => (
+          <>
+            {(selectedStatus === null ||
+              selectedStatus === feedbackStatus.key) && (
+              <div key={feedbackStatus.key}>
+                <h2 className="text-gray-700 font-bold text-lg">
+                  {feedbackStatus.name} ({feedbackStatus.count})
+                </h2>
+                <p className="text-gray-500 mb-6">
+                  {feedbackStatus.description}
+                </p>
+
+                <RoadmapFeedbacksList
+                  feedbacks={feedbackStatus.feedbacks || []}
+                  upvoteCallBack={onChangeUpvoteHandler}
+                  statusColor={feedbackStatus.color}
+                  statusName={feedbackStatus.name}
+                />
+              </div>
+            )}
+          </>
         ))}
       </main>
     </div>

@@ -83,7 +83,7 @@ const SignUp = () => {
   });
 
   return (
-    <div className="flex flex-col min-h-screen py-7 container mx-auto max-w-xl justify-center gap-10">
+    <div className="flex flex-col min-h-screen px-6 md:px-0 py-7 container mx-auto max-w-xl justify-center gap-10">
       <Head>
         <title>Signup | Product Feedback App</title>
         <meta
@@ -142,24 +142,28 @@ const SignUp = () => {
                   <TextField
                     label="Name"
                     name="full_name"
+                    help="Enter your full name, shown in comments"
                     required={true}
                     disabled={formik.isSubmitting}
                   />
                   <TextField
                     label="Avatar Url"
                     name="avatar_url"
+                    help="Optional url of your avatar image"
                     required={false}
                     disabled={formik.isSubmitting}
                   />
                   <TextField
                     label="Username"
                     name="username"
+                    help="Choose a unique username"
                     required={true}
                     disabled={formik.isSubmitting}
                   />
                   <TextField
                     label="Email"
                     name="email"
+                    help="Enter a valid e-mail, confirmation will be sent."
                     required={true}
                     disabled={formik.isSubmitting}
                   />
@@ -167,14 +171,16 @@ const SignUp = () => {
                     label="Password"
                     type="password"
                     name="password"
+                    help="Choose a strong password."
                     required={true}
                     disabled={formik.isSubmitting}
                   />
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center flex-col sm:flex-row-reverse gap-6 mt-6 sm:mt-3">
                     <Button
                       type="submit"
                       role="primary"
                       disabled={formik.isSubmitting}
+                      className="w-full sm:w-auto"
                     >
                       Sign in
                     </Button>

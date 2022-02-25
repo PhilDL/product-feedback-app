@@ -22,7 +22,7 @@ const ButtonLink: React.FC<Props> = React.forwardRef<Ref, Props>(
         href={href}
         onClick={onClick}
         ref={ref}
-        className={`py-2.5 px-6 text-white font-bold text-sm rounded ${color} ${className}`}
+        className={`py-2.5 px-3 sm:px-6 text-white font-bold text-sm rounded ${color} ${className}`}
         {...rest}
       >
         {children}
