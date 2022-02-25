@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Tag from "./UI/Tag";
 import Card from "./UI/Card";
 import Upvote from "./UI/Upvote";
 import type { FeedbackModel } from "../types/models";
-import type { Upvotes } from "../types/database";
-import { useUser } from "../utils/useUser";
+import useUpvotedState from "../utils/useUpvotedState";
 import Link from "next/link";
 
 type Props = {
@@ -22,26 +21,7 @@ const Feedback: React.FC<Props> = ({
   upvoteCallBack = () => {},
   withHeading = false,
 }: Props) => {
-  const { user } = useUser();
-  const [upvoted, setUpvoted] = useState(false);
-
-  useEffect(() => {
-    if (user && feedback) {
-      const upvote = feedback.upvotes.find(
-        (upvote: Upvotes) => upvote.user_id === user.id
-      );
-      if (upvote) {
-        setUpvoted(true);
-      } else {
-        setUpvoted(false);
-      }
-    }
-  }, [user, feedback]);
-
-  if (!feedback) {
-    return <div>Error</div>;
-  }
-
+  const upvoted = useUpvotedState(feedback);
   const commentsCount = feedback.comments?.length || 0;
 
   return (
