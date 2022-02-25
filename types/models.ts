@@ -9,14 +9,19 @@ import type {
 export interface CommentModel extends Comment {
   user: UserProfile;
   replies?: CommentModel[];
-  replying_to_user?: UserProfile;
+  replying_to_user: UserProfile | null;
+}
+
+export interface FeedbackUpvotes {
+  feedback_id?: number;
+  user_id: string;
 }
 
 export interface FeedbackModel extends Feedback {
   user: UserProfile;
   category: Category;
   comments: CommentModel[];
-  upvotes: Upvotes[];
+  upvotes: FeedbackUpvotes[];
 }
 
 export interface CategoryModel extends Category {}

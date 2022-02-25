@@ -6,7 +6,7 @@ import type { FeedbackModel } from "../types/models";
 import { useUpvotedState } from "../utils/useUpvotes";
 import Link from "next/link";
 
-type Props = {
+export type FeedbackProps = {
   feedback: FeedbackModel;
   upvoteCallBack?: (
     feedbackSlug: string,
@@ -16,11 +16,11 @@ type Props = {
   withHeading?: boolean;
 };
 
-const Feedback: React.FC<Props> = ({
+const Feedback: React.FC<FeedbackProps> = ({
   feedback,
   upvoteCallBack = () => {},
   withHeading = false,
-}: Props) => {
+}: FeedbackProps) => {
   const upvoted = useUpvotedState(feedback);
   const commentsCount = feedback.comments?.length || 0;
 

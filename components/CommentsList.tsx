@@ -3,17 +3,17 @@ import Comment from "./Comment";
 import type { CommentModel } from "../types/models";
 import { arrayToTree } from "performant-array-to-tree";
 
-type Props = {
+export type CommentsListProps = {
   comments?: CommentModel[];
   totalComments: number;
   onAddComment: () => void;
 };
 
-const CommentsList: React.FC<Props> = ({
+const CommentsList: React.FC<CommentsListProps> = ({
   comments,
   totalComments,
   onAddComment,
-}: Props) => {
+}: CommentsListProps) => {
   const commentsTree: CommentModel[] = comments
     ? (arrayToTree(comments, {
         dataField: null,

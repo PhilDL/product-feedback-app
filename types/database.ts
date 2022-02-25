@@ -27,9 +27,9 @@ export interface Comment {
   user_id: string;
   content: string;
   feedback_id: number;
-  parent_id?: number;
-  has_replies: boolean;
-  replying_to?: number;
+  parent_id: number | null;
+  has_replies?: boolean;
+  replying_to: string | null;
 }
 
 export interface Feedback {

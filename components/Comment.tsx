@@ -5,12 +5,15 @@ import Button from "./UI/Button";
 import UnstyledButton from "./UI/UnstyledButton";
 import CommentReply from "./CommentReply";
 
-type Props = {
+export type CommentProps = {
   comment: CommentModel;
   onAddComment: () => void;
 };
 
-const Comment: React.FC<Props> = ({ comment, onAddComment }: Props) => {
+const Comment: React.FC<CommentProps> = ({
+  comment,
+  onAddComment,
+}: CommentProps) => {
   const { user, content, replying_to_user: replyingTo, replies } = comment;
   const [showReplyBox, setShowReplyBox] = useState<boolean>(false);
 

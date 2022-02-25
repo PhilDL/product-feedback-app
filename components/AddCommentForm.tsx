@@ -7,7 +7,7 @@ import { useUser } from "../utils/useUser";
 import { FormikProvider, Form, useFormik } from "formik";
 import * as Yup from "yup";
 
-type AddCommentFormProps = {
+export type AddCommentFormProps = {
   feedbackId: string | number;
   replyToCommentId?: string | number;
   onAddComment: () => void;

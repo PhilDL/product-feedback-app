@@ -3,7 +3,7 @@ import Feedback from "./Feedback";
 import NoFeedback from "./NoFeedback";
 import type { FeedbackModel } from "../types/models";
 
-type Props = {
+export type FeedbacksListProps = {
   feedbacks: FeedbackModel[];
   upvoteCallBack?: (
     feedbackSlug: string,
@@ -12,10 +12,11 @@ type Props = {
   ) => void;
 };
 
-const FeedbacksList: React.FC<Props> = ({
+const FeedbacksList: React.FC<FeedbacksListProps> = ({
   feedbacks,
   upvoteCallBack = () => {},
-}: Props) => {
+}: FeedbacksListProps) => {
+  console.log(JSON.stringify(feedbacks, null, 4));
   if (feedbacks.length === 0) {
     return <NoFeedback />;
   }
