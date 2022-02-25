@@ -16,6 +16,10 @@ const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
   if (!label) {
     return (
       <>
+        <label htmlFor={props.name} className="sr-only">
+          {label}
+          <small className="sr-only">{help}</small>
+        </label>
         <textarea
           className={`py-3 px-6 text-gray-700 bg-gray-300 text-sm rounded-input ${className} ${
             meta.touched && meta.error && "outline outline-red"
@@ -23,6 +27,7 @@ const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
           rows={5}
           {...field}
           {...rest}
+          id={props.name}
         />
         {meta.touched && meta.error ? (
           <small className="text-red">{meta.error}</small>
@@ -50,6 +55,7 @@ const TextAreaField: React.FC<TextAreaFieldProps> = (props) => {
         rows={5}
         {...field}
         {...rest}
+        id={props.name}
       />
       {meta.touched && meta.error ? (
         <small className="text-red">{meta.error}</small>

@@ -27,6 +27,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
         }`}
         {...field}
         {...rest}
+        id={props.name}
       />
       {meta.touched && meta.error ? (
         <small className="text-red">{meta.error}</small>

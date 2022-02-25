@@ -14,11 +14,13 @@ type Props = {
     feedbackId: number,
     oldUpvoteState: boolean
   ) => void;
+  withHeading?: boolean;
 };
 
 const Feedback: React.FC<Props> = ({
   feedback,
   upvoteCallBack = () => {},
+  withHeading = false,
 }: Props) => {
   const { user } = useUser();
   const [upvoted, setUpvoted] = useState(false);
@@ -41,6 +43,7 @@ const Feedback: React.FC<Props> = ({
   }
 
   const commentsCount = feedback.comments?.length || 0;
+
   return (
     <Card className="md:flex-row flex-col gap-10 justify-between items-start">
       <div className="md:flex md:flex-1 hidden">
@@ -53,9 +56,16 @@ const Feedback: React.FC<Props> = ({
       <div className="flex flex-col w-full">
         <Link href={`/feedback/${feedback.slug}`} passHref>
           <a>
-            <h3 className="text-gray-700 text-lg font-bold mb-1 hover:text-blue">
-              {feedback.title}
-            </h3>
+            {withHeading ? (
+              <h1 className="text-gray-700 text-lg font-bold mb-1 hover:text-blue">
+                {feedback.title}
+              </h1>
+            ) : (
+              <h3 className="text-gray-700 text-lg font-bold mb-1 hover:text-blue">
+                {feedback.title}
+              </h3>
+            )}
+
             <p className="text-gray-500 font-normal">{feedback.description}</p>
           </a>
         </Link>

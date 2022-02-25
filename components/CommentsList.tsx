@@ -24,9 +24,9 @@ const CommentsList: React.FC<Props> = ({
 
   return (
     <div className="bg-white px-12 py-6 rounded">
-      <h4 className="text-gray-700 font-bold text-lg -ml-5">
+      <h2 className="text-gray-700 font-bold text-lg -ml-5">
         {totalComments} Comments
-      </h4>
+      </h2>
       {comments && comments.length > 0 && (
         <div className="divide-y flex flex-col divide-gray-100">
           {commentsTree.map((comment) => (

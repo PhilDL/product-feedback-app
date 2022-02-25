@@ -34,7 +34,7 @@ const Comment: React.FC<Props> = ({ comment, onAddComment }: Props) => {
           <div className="-ml-5 absolute">
             <Image
               src={user?.avatar_url || ""}
-              alt={user.username}
+              alt={`Avatar of ${user.username}`}
               width={40}
               height={40}
               className="rounded-full w-10 absolute"
@@ -44,9 +44,9 @@ const Comment: React.FC<Props> = ({ comment, onAddComment }: Props) => {
           <div className="flex flex-col w-full pl-10">
             <div className="flex justify-between">
               <div>
-                <h3 className="text-gray-700 text-sm font-bold tracking-tight">
+                <h4 className="text-gray-700 text-sm font-bold tracking-tight">
                   {user.full_name}
-                </h3>
+                </h4>
                 <span className="text-sm">@{user.username}</span>
               </div>
               <UnstyledButton onClick={() => setShowReplyBox((show) => !show)}>

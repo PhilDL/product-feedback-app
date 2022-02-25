@@ -71,7 +71,11 @@ const FeedbackDetails: React.FC<FeedbackDetailsProps> = ({
         </Link>
       </header>
       <main className="flex flex-col w-full gap-7">
-        <Feedback feedback={feedback} upvoteCallBack={upvoteCallBack} />
+        <Feedback
+          feedback={feedback}
+          upvoteCallBack={upvoteCallBack}
+          withHeading={true}
+        />
         <CommentsList
           comments={comments || []}
           totalComments={comments?.length || 0}

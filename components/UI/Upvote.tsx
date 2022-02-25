@@ -22,6 +22,9 @@ const Upvote: React.FC<Props> = (props) => {
       }`}
       {...rest}
     >
+      <span className="sr-only">
+        {active ? "Remove your upvote" : "Upvote this feedback"}
+      </span>
       <svg
         className={active ? "stroke-current" : "stroke-blue"}
         width="10"
@@ -30,7 +33,7 @@ const Upvote: React.FC<Props> = (props) => {
       >
         <path d="M1 6l4-4 4 4" strokeWidth="2" fill="none" fillRule="evenodd" />
       </svg>
-      {count}
+      {count} <span className="sr-only">upvotes</span>
     </button>
   );
 };
