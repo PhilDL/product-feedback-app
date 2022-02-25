@@ -1,10 +1,11 @@
 import Head from "next/head";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import ApplicationLogo from "../components/UI/ApplicationLogo";
 import FeedbacksListHeader from "../components/FeedbacksListHeader";
 import FeedbacksList from "../components/FeedbacksList";
 import RoadmapMenu from "../components/RoadmapMenu";
 import TagsCloud from "../components/TagsCloud";
+import MobileMenu from "../components/MobileMenu";
 import { getAllFeedbacks, deleteUpvote, addUpvote } from "../lib/client";
 import { supabaseClient } from "../lib/client";
 import useSWR, { useSWRConfig } from "swr";
@@ -34,10 +35,10 @@ const Suggestions: React.FC<SuggestionsProps> = ({
     fallbackData: initialFeedbacks,
   });
   const { user } = useUser();
-  const [feedbacksSort, setFeedbacksSort] =
-    React.useState<string>("most-upvotes");
+  const [feedbacksSort, setFeedbacksSort] = useState<string>("most-upvotes");
   const [selectedCategoryId, setSelectedCategoryId] =
-    React.useState<number | null>(null);
+    useState<number | null>(null);
+  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
 
   const sortedFeedbacks = useMemo(() => {
     let sortedFeedbacks: FeedbackModel[] = feedbacks || [];
@@ -103,7 +104,7 @@ const Suggestions: React.FC<SuggestionsProps> = ({
   };
 
   return (
-    <div className="flex min-h-screen py-2 container mx-auto gap-7">
+    <div className="flex flex-col sm:flex-col lg:flex-row min-h-screen sm:py-2 container mx-auto sm:gap-7">
       <Head>
         <title>Homepage | Product Feedback App</title>
         <meta
@@ -111,14 +112,23 @@ const Suggestions: React.FC<SuggestionsProps> = ({
           content="Product Feedback App built with NextJS, Supabase, TailwindCSS 3, SWR"
         />
       </Head>
-      <nav className="flex flex-col gap-6 max-w-xs">
-        <ApplicationLogo />
+      <nav className="sm:flex lg:flex-col sm:gap-6 lg:max-w-xs">
+        <ApplicationLogo
+          className="sm:flex-1 lg:flex-grow-0"
+          onMobileMenuClick={() => setShowMobileMenu(true)}
+          onMobileMenuCloseClick={() => setShowMobileMenu(false)}
+          mobileMenuVisible={showMobileMenu}
+        />
         <TagsCloud
           tags={categories}
           onChangeCategory={setSelectedCategoryId}
           selectedCategoryId={selectedCategoryId}
+          className="hidden sm:flex sm:flex-1 lg:flex-grow-0"
         />
-        <RoadmapMenu feedbackStatuses={feedbackStatuses} />
+        <RoadmapMenu
+          feedbackStatuses={feedbackStatuses}
+          className="hidden sm:flex sm:flex-1 lg:flex-grow-0"
+        />
       </nav>
       <main className="flex flex-col w-full gap-7">
         <FeedbacksListHeader
@@ -130,6 +140,14 @@ const Suggestions: React.FC<SuggestionsProps> = ({
           upvoteCallBack={onChangeUpvoteHandler}
         />
       </main>
+      <MobileMenu
+        isOpen={showMobileMenu}
+        onDismiss={() => setShowMobileMenu(false)}
+        categories={categories}
+        onChangeCategory={setSelectedCategoryId}
+        selectedCategoryId={selectedCategoryId}
+        feedbackStatuses={feedbackStatuses}
+      />
     </div>
   );
 };

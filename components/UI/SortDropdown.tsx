@@ -34,7 +34,7 @@ const SortDropdown: React.FC<Props> = ({
       {({ value, valueLabel, isExpanded }) => (
         <>
           <ListboxButton
-            className={`px-5 py-2 text-gray-200 rounded text-sm flex gap-2 items-center ${widthClassName} ${
+            className={`px-0 sm:px-5 py-2 text-gray-200 rounded text-sm flex gap-2 items-center active:outline-none focus:outline-none ${widthClassName} ${
               isExpanded && "text-gray-200/75"
             }`}
           >

@@ -5,11 +5,15 @@ import type { FeedbackStatusAggregate } from "../types/models";
 
 type Props = {
   feedbackStatuses: FeedbackStatusAggregate[];
+  className?: string;
 };
 
-const RoadmapMenu: React.FC<Props> = ({ feedbackStatuses }: Props) => {
+const RoadmapMenu: React.FC<Props> = ({
+  feedbackStatuses,
+  className,
+}: Props) => {
   return (
-    <Card className="flex-col gap-3 items-start">
+    <Card className={`flex-col gap-3 items-start ${className}`}>
       <div className="flex w-full flex-row justify-between">
         <h2 className="text-gray-700 text-lg font-bold">Roadmap</h2>
         <Link href="/roadmap" passHref>

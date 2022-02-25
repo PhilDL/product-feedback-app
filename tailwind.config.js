@@ -22,6 +22,7 @@ module.exports = {
       "gray-300": "hsla(230, 60%, 98%, 1)",
       "gray-500": "hsla(224, 20%, 49%, 1)",
       "gray-700": "hsla(231, 33%, 34%, 1)",
+      "gray-overlay": "hsla(220, 5%, 40%, 0.8)",
       orange: "hsla(14, 83%, 74%, 1)",
       "fushia-light": "hsl(282, 90%, 66%)",
       "blue-light": "hsla(230, 91%, 73%, 1)",

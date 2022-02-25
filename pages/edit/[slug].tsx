@@ -122,7 +122,7 @@ const EditFeedback: React.FC<EditFeedbackProps> = ({
   });
 
   return (
-    <div className="flex min-h-screen py-7  px-6 md:px-0 container mx-auto max-w-xl">
+    <div className="flex min-h-screen py-7 px-6 md:px-0 container mx-auto max-w-xl">
       <Head>
         <title>Editing {feedback.title}</title>
         <meta

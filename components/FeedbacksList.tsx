@@ -20,7 +20,7 @@ const FeedbacksList: React.FC<Props> = ({
     return <NoFeedback />;
   }
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 px-6 sm:px-0">
       {feedbacks.map((feedback) => (
         <Feedback
           key={feedback.id}

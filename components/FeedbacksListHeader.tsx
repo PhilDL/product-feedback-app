@@ -15,8 +15,8 @@ const FeedbacksListHeader: React.FC<Props> = ({
     onChangeSort(sort);
   };
   return (
-    <div className="flex flex-row gap-4 rounded p-4 justify-between items-center bg-blue-dark text-white">
-      <div className="flex gap-3">
+    <div className="flex flex-row gap-4 sm:rounded py-4 px-6 sm:px-4 justify-between items-center bg-blue-dark text-white">
+      <div className="hidden sm:flex sm:gap-3">
         <svg
           width="23"
           height="24"

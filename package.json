@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reach/dialog": "^0.16.2",
     "@reach/listbox": "^0.16.2",
     "@supabase/supabase-auth-helpers": "^1.1.3",
     "@supabase/supabase-js": "^1.30.6",
