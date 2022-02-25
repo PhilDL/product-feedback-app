@@ -2,7 +2,7 @@ import React from "react";
 import Tag from "./UI/Tag";
 import Upvote from "./UI/Upvote";
 import type { FeedbackModel } from "../types/models";
-import useUpvotedState from "../utils/useUpvotedState";
+import { useUpvotedState } from "../utils/useUpvotes";
 import Link from "next/link";
 
 type RoadmapFeedbackProps = {

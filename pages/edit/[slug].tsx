@@ -3,24 +3,26 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import React, { useState } from "react";
 import Link from "next/link";
-import GoBackLink from "../../components/UI/GoBackLink";
+import {
+  GoBackLink,
+  Card,
+  Button,
+  ButtonLink,
+  TextField,
+  TextAreaField,
+  SelectField,
+} from "../../components/UI";
 import {
   supabaseClient,
   getFeedbackBySlug,
   getAllFeedbacks,
 } from "../../lib/client";
-import { FeedbackModel } from "../../types/models";
-import type { GetServerSideProps } from "next";
-import type { Category } from "../../types/database";
-import Card from "../../components/UI/Card";
-import Button from "../../components/UI/Button";
-import ButtonLink from "../../components/UI/ButtonLink";
-import TextField from "../../components/UI/TextField";
-import TextAreaField from "../../components/UI/TextAreaField";
-import SelectField from "../../components/UI/SelectField";
 import { FormikProvider, Form, useFormik } from "formik";
 import { useUser } from "../../utils/useUser";
 import * as Yup from "yup";
+import type { FeedbackModel } from "../../types/models";
+import type { GetServerSideProps } from "next";
+import type { Category } from "../../types/database";
 
 export interface EditFeedbackProps {
   feedback: FeedbackModel;

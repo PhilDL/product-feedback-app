@@ -3,7 +3,7 @@ import Tag from "./UI/Tag";
 import Card from "./UI/Card";
 import Upvote from "./UI/Upvote";
 import type { FeedbackModel } from "../types/models";
-import useUpvotedState from "../utils/useUpvotedState";
+import { useUpvotedState } from "../utils/useUpvotes";
 import Link from "next/link";
 
 type Props = {

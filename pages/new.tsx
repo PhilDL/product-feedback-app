@@ -6,13 +6,15 @@ import { useSWRConfig } from "swr";
 import { useRouter } from "next/router";
 import { supabaseClient, getAllFeedbacks } from "../lib/client";
 import { slugify } from "../lib/utils";
-import Card from "../components/UI/Card";
-import Button from "../components/UI/Button";
-import ButtonLink from "../components/UI/ButtonLink";
-import GoBackLink from "../components/UI/GoBackLink";
-import TextField from "../components/UI/TextField";
-import TextAreaField from "../components/UI/TextAreaField";
-import SelectField from "../components/UI/SelectField";
+import {
+  Card,
+  Button,
+  ButtonLink,
+  GoBackLink,
+  TextField,
+  TextAreaField,
+  SelectField,
+} from "../components/UI";
 import { FormikProvider, Form, useFormik } from "formik";
 import { useUser } from "../utils/useUser";
 import * as Yup from "yup";
@@ -64,9 +66,10 @@ const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
       setError(null);
     }
     setSubmitting(false);
-    const { data: newFeedbacks, error: newFeedbacksError } =
-      await getAllFeedbacks();
-    mutate("/api/feedbacks", newFeedbacks);
+    const { data: newFeedbacks } = await getAllFeedbacks();
+    if (data) {
+      mutate("/api/feedbacks", newFeedbacks);
+    }
     router.push("/");
   };
 

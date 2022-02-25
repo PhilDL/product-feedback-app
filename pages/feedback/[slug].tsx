@@ -1,21 +1,18 @@
+import React from "react";
 import useSWR, { useSWRConfig } from "swr";
 import Head from "next/head";
-import React from "react";
 import Link from "next/link";
-import GoBackLink from "../../components/UI/GoBackLink";
+import { GoBackLink, ButtonLink } from "../../components/UI";
+import { Feedback, CommentsList, AddCommentForm } from "../../components";
 import {
   supabaseClient,
   getFeedbackBySlug,
   deleteUpvote,
   addUpvote,
 } from "../../lib/client";
-import { FeedbackModel } from "../../types/models";
-import Feedback from "../../components/Feedback";
-import CommentsList from "../../components/CommentsList";
-import AddCommentForm from "../../components/AddCommentForm";
-import type { GetStaticProps } from "next";
 import { useUser } from "../../utils/useUser";
-import ButtonLink from "../../components/UI/ButtonLink";
+import type { FeedbackModel } from "../../types/models";
+import type { GetStaticProps } from "next";
 
 export interface FeedbackDetailsProps {
   initFeedback: FeedbackModel;

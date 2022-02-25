@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import GoBackLink from "../../components/UI/GoBackLink";
-import Card from "../../components/UI/Card";
-import Button from "../../components/UI/Button";
-import TextField from "../../components/UI/TextField";
+import { GoBackLink, Card, Button, TextField } from "../../components/UI";
 import { FormikProvider, Form, useFormik } from "formik";
 import { slugify } from "../../lib/utils";
 import { useUser } from "../../utils/useUser";

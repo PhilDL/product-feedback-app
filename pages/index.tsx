@@ -1,44 +1,36 @@
-import Head from "next/head";
 import React, { useMemo, useState } from "react";
-import ApplicationLogo from "../components/UI/ApplicationLogo";
-import FeedbacksListHeader from "../components/FeedbacksListHeader";
-import FeedbacksList from "../components/FeedbacksList";
-import RoadmapMenu from "../components/RoadmapMenu";
-import TagsCloud from "../components/TagsCloud";
-import MobileMenu from "../components/MobileMenu";
-import { getAllFeedbacks, deleteUpvote, addUpvote } from "../lib/client";
-import { supabaseClient } from "../lib/client";
-import useSWR, { useSWRConfig } from "swr";
+import Head from "next/head";
+import useSWR from "swr";
+import { ApplicationLogo } from "../components/UI";
+import {
+  FeedbacksListHeader,
+  FeedbacksList,
+  RoadmapMenu,
+  TagsCloud,
+  MobileMenu,
+} from "../components";
+import { supabaseClient, getAllFeedbacks } from "../lib/client";
+import { useUpvoteChange } from "../utils/useUpvotes";
 import type { GetStaticProps } from "next";
 import type { FeedbackModel, CategoryModel } from "../types/models";
-import { useUser } from "../utils/useUser";
 
 export interface SuggestionsProps {
   categories: CategoryModel[];
   initialFeedbacks: FeedbackModel[];
 }
 
-// const useStaleWhileRevalidatedFeedback = (initFeedback: FeedbackModel) => {
-//   return useSWR(`/api/feedback/${initFeedback.slug}`, {
-//     fallbackData: initFeedback,
-//   });
-// };
-
 const Suggestions: React.FC<SuggestionsProps> = ({
   categories,
   initialFeedbacks,
 }) => {
-  const { mutate, cache } = useSWRConfig();
   const { data: feedbacks } = useSWR<FeedbackModel[]>(`/api/feedbacks`, {
-    // revalidateOnMount: false,
-    // revalidateOnFocus: false,
     fallbackData: initialFeedbacks,
   });
-  const { user } = useUser();
   const [feedbacksSort, setFeedbacksSort] = useState<string>("most-upvotes");
   const [selectedCategoryId, setSelectedCategoryId] =
     useState<number | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
+  const { onChangeUpvoteHandler } = useUpvoteChange();
 
   const sortedFeedbacks = useMemo(() => {
     let sortedFeedbacks: FeedbackModel[] = feedbacks || [];
@@ -85,22 +77,6 @@ const Suggestions: React.FC<SuggestionsProps> = ({
   }
   const changeSortHandler = (sort: string) => {
     setFeedbacksSort(sort);
-  };
-
-  const onChangeUpvoteHandler = async (
-    feedbackSlug: string,
-    feedbackId: number,
-    oldUpvoteState: boolean
-  ) => {
-    if (user) {
-      if (oldUpvoteState) {
-        const { data, error } = await deleteUpvote(feedbackId, user.id);
-      } else {
-        const { data, error } = await addUpvote(feedbackId, user.id);
-      }
-      mutate(`/api/feedback/${feedbackSlug}`);
-      mutate(`/api/feedbacks`);
-    }
   };
 
   return (

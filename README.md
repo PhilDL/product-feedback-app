@@ -1,27 +1,97 @@
-# Next.js + Tailwind CSS Example
+# Frontend Mentor - Product feedback app solution
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+This is a solution to the [Product feedback app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/product-feedback-app-wbvUYqjR6), for my personal Frontend Training routine.
 
-## Preview
+## Table of contents
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+- [Frontend Mentor - Product feedback app solution](#frontend-mentor---product-feedback-app-solution)
+  - [Table of contents](#table-of-contents)
+  - [Overview](#overview)
+    - [The challenge](#the-challenge)
+    - [Screenshot](#screenshot)
+      - [Desktop](#desktop)
+      - [Mobile](#mobile)
+    - [Links](#links)
+  - [My process](#my-process)
+    - [Built with](#built-with)
+    - [What I learned](#what-i-learned)
+    - [Continued development](#continued-development)
+  - [Author](#author)
+  - [Author](#author-1)
+  - [Acknowledgments](#acknowledgments)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+## Overview
 
-## Deploy your own
+### The challenge
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+Users should be able to:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+- View the optimal layout for the app depending on their device's screen size
+- See hover states for all interactive elements on the page
+- Create, read, update, and delete product feedback requests
+- Receive form validations when trying to create/edit feedback requests
+- Sort suggestions by most/least upvotes and most/least comments
+- Filter suggestions by category
+- Add comments and replies to a product feedback request
+- Upvote product feedback requests
+- **Bonus**: Keep track of any changes, even after refreshing the browser (`localStorage` could be used for this if you're not building out a full-stack app)
 
-## How to use
+### Screenshot
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+#### Desktop
+![Desktop Version](./public/image.png)
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
+#### Mobile
+![Mobile Version](./public/image-mobile.png)
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+
+### Links
+
+- Solution URL: [https://github.com/PhilDL/product-feedback-app](https://github.com/PhilDL/product-feedback-app)
+- Live Site URL: [https://product-feedback-app-phildl.vercel.app](https://product-feedback-app-phildl.vercel.app)
+
+## My process
+
+### Built with
+
+- Semantic HTML5 markup
+- Flexbox
+- Mobile-first workflow
+- Accessibility
+- [React](https://reactjs.org/) - JS library
+- [Next.js](https://nextjs.org/) - React framework
+- [SWR](https://swr.vercel.app/) - React Hooks for Data Fetching
+- [TailwindCSS 3](https://tailwindcss.com/) - For styles
+- [Supabase](https://supabase.com/) - For Database
+- [Storybook](https://storybook.js.org) - Storybook: UI component explorer for frontend developers
+
+### What I learned
+
+I wasn't sure wich technology between Remix and NextJS to practice/learn so i begin by doing a Design System of React components with StoryBook and Tailwind (easier to migrate between Next and Remix, i also wanted to use something else than styled components). The goal was to make a Fullstack App.
+
+Storybook was kind of easy to use then i dived head first and choose NextJS, for full stack effect i added Supabase, so i learned quite a lot. Using SWR to make NextJS more "dynamic" in this kind of app with a lot of interactions was essential to me.
+
+The thing i'm most proud about is how i handle the thin grey left line when inside a Comments reply chain!
+
+### Continued development
+
+- I would like to make some refactoring into hooks to clean up code.
+- Storybook is now broken, some of the Components need special Context and i'm not proud about that. I would like them to be the most presentationnal possible but i still need some work.
+
+## Author
+
+- Website - [Add your name here](https://www.your-site.com)
+- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
+- Twitter - [@yourusername](https://www.twitter.com/yourusername)
+
+**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
+
+## Author
+
+- Website - [Coding Dodo](https://codingdodo.com)
+- Twitter - [@_philDL_](https://twitter.com/_philDL)
+
+
+## Acknowledgments
+
+Thanks to Josh from the [CSS For JS Dev course](https://courses.joshwcomeau.com/css-for-js) for this amazing ressource.
