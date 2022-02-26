@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Upvotes } from "../types/database";
-import type { FeedbackModel } from "../types/models";
+import type { FeedbackModel, FeedbackUpvotes } from "../types/models";
 import { useUser } from "./useUser";
 import { deleteUpvote, addUpvote } from "../lib/client";
 import { useSWRConfig } from "swr";
@@ -12,7 +11,7 @@ export const useUpvotedState = (feedback: FeedbackModel) => {
   useEffect(() => {
     if (user && feedback) {
       const upvote = feedback.upvotes.find(
-        (upvote: Upvotes) => upvote.user_id === user.id
+        (upvote: FeedbackUpvotes) => upvote.user_id === user.id
       );
       if (upvote) {
         setUpvoted(true);

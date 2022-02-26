@@ -6,7 +6,8 @@
     "start": "next start",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "lint": "next lint"
+    "lint": "next lint",
+    "chromatic": "npx chromatic --project-token=28079f1b3c73"
   },
   "dependencies": {
     "@reach/dialog": "^0.16.2",
