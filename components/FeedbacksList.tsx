@@ -16,7 +16,6 @@ const FeedbacksList: React.FC<FeedbacksListProps> = ({
   feedbacks,
   upvoteCallBack = () => {},
 }: FeedbacksListProps) => {
-  console.log(JSON.stringify(feedbacks, null, 4));
   if (feedbacks.length === 0) {
     return <NoFeedback />;
   }

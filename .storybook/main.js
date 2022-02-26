@@ -8,6 +8,7 @@ module.exports = {
     "@storybook/addon-essentials",
     "storybook-addon-next",
     "storybook-formik/register",
+    "storybook-addon-mock/register",
   ],
   core: {
     builder: "webpack5",
