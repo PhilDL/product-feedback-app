@@ -18,21 +18,17 @@ import {
 import { FormikProvider, Form, useFormik } from "formik";
 import { useUser } from "../utils/useUser";
 import * as Yup from "yup";
+import type { CategoryModel } from "../types/models";
 
-export interface Category {
-  id: number;
-  name: string;
-  created_at: string;
-}
 export interface NewFeedbackProps {
-  categories: Category[];
+  categories: CategoryModel[];
 }
 
 const NewFeedback: React.FC<NewFeedbackProps> = ({ categories }) => {
   const [error, setError] = useState<string | null>(null);
   const { user } = useUser();
   const router = useRouter();
-  const { mutate, cache } = useSWRConfig();
+  const { mutate } = useSWRConfig();
 
   const loginButtonHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

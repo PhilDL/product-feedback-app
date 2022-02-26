@@ -85,7 +85,7 @@ const Roadmap: React.FC<RoadmapProps> = ({ initialFeedbacks }) => {
           </Link>
           <h1 className="text-xl sm:text-2xl font-bold">Roadmap</h1>
         </div>
-        <Link href="/new" passHref>
+        <Link href="/new-feedback" passHref>
           <ButtonLink role="primary" className="ml-auto">
             + Add Feedback
           </ButtonLink>
@@ -108,10 +108,10 @@ const Roadmap: React.FC<RoadmapProps> = ({ initialFeedbacks }) => {
       </nav>
       <main className="flex w-full gap-7 flex-col px-6 sm:flex-row sm:px-0">
         {feedbackStatuses.map((feedbackStatus) => (
-          <>
+          <div key={feedbackStatus.key} className="flex-1">
             {(selectedStatus === null ||
               selectedStatus === feedbackStatus.key) && (
-              <div key={feedbackStatus.key}>
+              <>
                 <h2 className="text-gray-700 font-bold text-lg">
                   {feedbackStatus.name} ({feedbackStatus.count})
                 </h2>
@@ -125,9 +125,9 @@ const Roadmap: React.FC<RoadmapProps> = ({ initialFeedbacks }) => {
                   statusColor={feedbackStatus.color}
                   statusName={feedbackStatus.name}
                 />
-              </div>
+              </>
             )}
-          </>
+          </div>
         ))}
       </main>
     </div>

@@ -42,7 +42,7 @@ const FeedbacksListHeader: React.FC<FeedbacksListHeaderProps> = ({
         }}
         inputName="sort"
       />
-      <Link href="/new" passHref>
+      <Link href="/new-feedback" passHref>
         <ButtonLink role="primary" className="ml-auto">
           + Add Feedback
         </ButtonLink>
