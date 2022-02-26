@@ -2,15 +2,15 @@ import React from "react";
 import ButtonLink from "./UI/ButtonLink";
 import Link from "next/link";
 import SortDropdown from "./UI/SortDropdown";
-type Props = {
+export type FeedbacksListHeaderProps = {
   feedbackCount: number;
   onChangeSort: (sort: string) => void;
 };
 
-const FeedbacksListHeader: React.FC<Props> = ({
+const FeedbacksListHeader: React.FC<FeedbacksListHeaderProps> = ({
   feedbackCount,
   onChangeSort,
-}: Props) => {
+}: FeedbacksListHeaderProps) => {
   const changeSortHandler = (sort: string) => {
     onChangeSort(sort);
   };

@@ -1,13 +1,30 @@
-import React from "react";
+import { Meta } from "@storybook/react";
+import { ComponentStory } from "@storybook/react";
+import { FC } from "react";
+import TagsCloud, { TagsCloudProps } from "../../components/TagsCloud";
 
-import TagsCloud from "../../components/TagsCloud";
-
-export default {
+const meta: Meta = {
   title: "Components/TagsCloud",
   component: TagsCloud,
+  parameters: {
+    backgrounds: {
+      default: "white",
+      values: [
+        {
+          name: "white",
+          value: "white",
+        },
+      ],
+    },
+    layout: "padded",
+  },
 };
 
-const Template = (args) => <TagsCloud {...args} />;
+export default meta;
+
+const Template: ComponentStory<FC<TagsCloudProps>> = (args) => (
+  <TagsCloud {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {
@@ -22,7 +39,7 @@ Default.args = {
     },
     { id: 5, created_at: "2022-02-21T18:18:46+00:00", name: "Feature" },
   ],
-  selectedTag: "enchancement",
+  selectedCategoryId: null,
 };
 
 export const TagActive = Template.bind({});
@@ -38,5 +55,5 @@ TagActive.args = {
     },
     { id: 5, created_at: "2022-02-21T18:18:46+00:00", name: "Feature" },
   ],
-  selectedTag: "enchancement",
+  selectedCategoryId: 3,
 };

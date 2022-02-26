@@ -1,6 +1,6 @@
 import React from "react";
 
-type Props = {
+export type ApplicationLogoProps = {
   className?: string;
   [x: string]: any;
   mobileMenuVisible: boolean;
@@ -8,7 +8,7 @@ type Props = {
   onMobileMenuCloseClick: () => void;
 };
 
-const ApplicationLogo: React.FC<Props> = (props) => {
+const ApplicationLogo: React.FC<ApplicationLogoProps> = (props) => {
   const {
     className,
     mobileMenuVisible,

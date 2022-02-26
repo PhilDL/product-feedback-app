@@ -1,11 +1,11 @@
 import React from "react";
 
-type Props = {
+export type TagProps = {
   selected?: boolean;
   [x: string]: any;
 };
 
-const Tag: React.FC<Props> = (props) => {
+const Tag: React.FC<TagProps> = (props) => {
   const { children, selected, ...rest } = props;
   return (
     <button

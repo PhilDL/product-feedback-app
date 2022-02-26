@@ -7,7 +7,7 @@ import {
   ListboxOption,
 } from "@reach/listbox";
 
-type Props = {
+export type SortDropdownProps = {
   options: { [key: string]: string };
   defaultValue: string;
   [x: string]: any;
@@ -16,7 +16,7 @@ type Props = {
   onChangeSort: (value: string) => void;
 };
 
-const SortDropdown: React.FC<Props> = ({
+const SortDropdown: React.FC<SortDropdownProps> = ({
   options,
   defaultValue,
   widthClassName,

@@ -3,19 +3,19 @@ import Tag from "./UI/Tag";
 import Card from "./UI/Card";
 import type { Category } from "../types/database";
 
-type Props = {
+export type TagsCloudProps = {
   tags: Category[];
   selectedCategoryId?: number | null;
   onChangeCategory: (id: number | null) => void;
   className?: string;
 };
 
-const TagsCloud: React.FC<Props> = ({
+const TagsCloud: React.FC<TagsCloudProps> = ({
   tags,
   selectedCategoryId = null,
   onChangeCategory,
   className,
-}: Props) => {
+}: TagsCloudProps) => {
   return (
     <Card className={`flex-wrap gap-x-2 gap-y-3 ${className}`}>
       <Tag

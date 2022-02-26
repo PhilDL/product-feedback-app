@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
 import { ComponentStory } from "@storybook/react";
-import React, { FC } from "react";
+import { FC } from "react";
 import withFormik from "storybook-formik";
 import TextField from "../../components/UI/TextField";
 import type { TextFieldProps } from "../../components/UI/TextField";

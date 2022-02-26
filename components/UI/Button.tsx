@@ -1,6 +1,6 @@
 import React from "react";
 
-type Props = {
+export type ButtonProps = {
   role: string;
   className?: string;
   [x: string]: any;
@@ -14,7 +14,7 @@ const COLOR_ROLES: { [key: string]: string } = {
   danger: "bg-red hover:bg-red-lighter disabled:bg-red-lighter/75",
 };
 
-const Button: React.FC<Props> = (props) => {
+const Button: React.FC<ButtonProps> = (props) => {
   const { children, role, className, ...rest } = props;
   const color = COLOR_ROLES[role] || COLOR_ROLES.default;
   return (

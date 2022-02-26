@@ -1,13 +1,13 @@
 import React from "react";
 
-type Props = {
+export type UpvoteProps = {
   active: boolean;
   count: number;
   [x: string]: any;
   inlineStyle?: boolean;
 };
 
-const Upvote: React.FC<Props> = (props) => {
+const Upvote: React.FC<UpvoteProps> = (props) => {
   const { count, active, inlineStyle, ...rest } = props;
   return (
     <button

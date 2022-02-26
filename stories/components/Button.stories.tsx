@@ -1,13 +1,19 @@
-import React from "react";
+import { Meta } from "@storybook/react";
+import { ComponentStory } from "@storybook/react";
+import { FC } from "react";
 
-import Button from "../../components/UI/Button";
+import Button, { ButtonProps } from "../../components/UI/Button";
 
-export default {
+const meta: Meta = {
   title: "UI/Button",
   component: Button,
 };
 
-const Template = (args) => <Button {...args} />;
+export default meta;
+
+const Template: ComponentStory<FC<ButtonProps>> = (args) => (
+  <Button {...args} />
+);
 
 export const Primary = Template.bind({});
 Primary.args = {

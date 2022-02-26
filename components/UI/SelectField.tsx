@@ -11,6 +11,7 @@ import {
 export interface Option {
   id: number | string;
   name: string;
+  [x: string]: any;
 }
 export interface SelectFieldProps extends FieldConfig<any> {
   options: Option[];
